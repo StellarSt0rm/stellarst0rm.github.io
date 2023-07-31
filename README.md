@@ -1,4 +1,4 @@
-# GamerBlue208.github.io
+# StellarSt0rm.github.io
 
 This are the files to my [programing blog website](https://stellarst0rm.github.io/) :D
 
