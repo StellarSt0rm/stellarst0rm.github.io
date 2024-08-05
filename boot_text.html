@@ -94,7 +94,13 @@
     --Starting User Management for UID 69...
   </boot_text>
   
-  <desktop style="display: none; height: 100vh; animation: zoom-in 1s"></desktop>
+  <desktop id="desktop" style="display: none; height: 100vh; animation: zoom-in 1s">
+    <useless_topbar style="height: 3.5vh; width: 100vw; backdrop-filter: blur(30px) brightness(0.6)"></useless_topbar>
+    <apps_container id="apps_container" style="height: calc(100vh - 10vh - 3.5vh); width: 100vw; background: blue; opacity: 0.4; margin-bottom: 0.5vh"></apps_container>
+    <apps_launcher id="apps_launcher" style="height: 8.4vh; width: 400px; backdrop-filter: blur(30px) brightness(0.6); border-radius: 24px"></apps_launcher>
+    
+    <!-- apps_launcher 'width: 400px' is temporary -->
+  </desktop>
   
   <script>
     // Boot animation
@@ -141,13 +147,13 @@
     }
     
     function animate(i, len) {
-      line = boot_text[i]
+      let line = boot_text[i]
       
       boot_element.innerHTML += line + "<br>"
       window.scroll(0, boot_element.scrollHeight)
       
       if (i < len) {
-        setTimeout(animate, 20 + Math.floor(Math.random() * 51), i + 1, len)
+         setTimeout(animate, 20 + Math.floor(Math.random() * 51), i + 1, len)
       } else {
         setTimeout(() => {
           apps_fetch.then(response => { response.json().then(apps_data => {
@@ -158,21 +164,34 @@
             delete boot_text
             delete apps_fetch
             
-            main(apps_data, wallpaper_fetch)
+            main(apps_data)
           })})
         }, 1000)
       }
     }
     
-    function main(apps_data, wallpaper_fetch) {
+    function main(apps_data) {
       console.log(apps_data)
       
-      document.querySelector("desktop").style.display = "block"
-      wallpaper_fetch.then(response => { response.blob().then(image => {
-        document.querySelector("desktop").style.background = `url(${URL.createObjectURL(image)})`
+      document.querySelector("desktop").style.display = "flex"
+      document.querySelector("desktop").style.background = window.image_store["desktop"]
+    }
+    
+    function preFetchImages() {
+      window.image_store = {}
+      let image_list = [ // URLs are temporary
+        [ "desktop", "https://media.discordapp.net/attachments/1244566502213025822/1269982739369689118/uydigstlasgd1.png?ex=66b20b18&is=66b0b998&hm=94d64a0ad5383d910d92eac8717aafd31faacba274b51d94c5ef6a01e774f0f2&=&format=webp&quality=lossless&width=525&height=350"]
+      ]
+      
+      for (let i = 0; i < image_list.length; i++) {
+        let element = document.getElementById(image_list[i][0])
+        let url = image_list[i][1]
         
-        delete wallpaper_fetch
-      })})
+        fetch(url).then(response => { response.blob().then(image => {
+          //element.style.background = `url(${URL.createObjectURL(image)})`
+          window.image_store[element.id] = `url(${URL.createObjectURL(image)})` // Save images to window.image_store, to access later
+        })})
+      }
     }
     
     boot_element = document.getElementById("boot_text")
@@ -181,7 +200,7 @@
     boot_element.innerHTML = ""
     
     apps_fetch = fetch("https://www.reddit.com/user/Background-Plant-226/submitted.json") // Temp
-    wallpaper_fetch = fetch("https://media.discordapp.net/attachments/1244566502213025822/1269982739369689118/uydigstlasgd1.png?ex=66b20b18&is=66b0b998&hm=94d64a0ad5383d910d92eac8717aafd31faacba274b51d94c5ef6a01e774f0f2&=&format=webp&quality=lossless&width=525&height=350") // Temp
+    preFetchImages() // Pre-Fetch images
     animate(0, boot_text.length - 2)
   </script>
   
@@ -189,6 +208,10 @@
     desktop {
       background-size: cover !important;
       background-position: center !important;
+      
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
   
     @keyframes zoom-in {
