@@ -94,7 +94,7 @@
     --Starting User Management for UID 69...
   </boot_text>
   
-  <desktop style="background: red; display: none; height: 100vh"></desktop>
+  <desktop style="display: none; height: 100vh; animation: zoom-in 1s"></desktop>
   
   <script>
     // Boot animation
@@ -150,26 +150,29 @@
         setTimeout(animate, 20 + Math.floor(Math.random() * 51), i + 1, len)
       } else {
         setTimeout(() => {
-          apps_fetch.then(response => {
-            response.json().then(apps_data => {
-              boot_element.remove()
-              
-              // Cleanup
-              delete boot_element
-              delete boot_text
-              delete apps_fetch
-              
-              main(apps_data)
-            })
-          })
+          apps_fetch.then(response => { response.json().then(apps_data => {
+            boot_element.remove()
+            
+            // Cleanup
+            delete boot_element
+            delete boot_text
+            delete apps_fetch
+            
+            main(apps_data, wallpaper_fetch)
+          })})
         }, 1000)
       }
     }
     
-    function main(apps_data) {
+    function main(apps_data, wallpaper_fetch) {
       console.log(apps_data)
       
       document.querySelector("desktop").style.display = "block"
+      wallpaper_fetch.then(response => { response.blob().then(image => {
+        document.querySelector("desktop").style.background = `url(${URL.createObjectURL(image)})`
+        
+        delete wallpaper_fetch
+      })})
     }
     
     boot_element = document.getElementById("boot_text")
@@ -178,6 +181,25 @@
     boot_element.innerHTML = ""
     
     apps_fetch = fetch("https://www.reddit.com/user/Background-Plant-226/submitted.json") // Temp
+    wallpaper_fetch = fetch("https://media.discordapp.net/attachments/1244566502213025822/1269982739369689118/uydigstlasgd1.png?ex=66b20b18&is=66b0b998&hm=94d64a0ad5383d910d92eac8717aafd31faacba274b51d94c5ef6a01e774f0f2&=&format=webp&quality=lossless&width=525&height=350") // Temp
     animate(0, boot_text.length - 2)
   </script>
+  
+  <style>
+    desktop {
+      background-size: cover !important;
+      background-position: center !important;
+    }
+  
+    @keyframes zoom-in {
+      from {
+        opacity: 40%;
+        scale: 0.8;
+      }
+      to {
+        opacity: 100%;
+        scale: 1;
+      }
+    }
+  </style>
 </body>
