@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<body style="overflow: hidden; background: black; color: white;">
+  <p id="boot_text" style="font-family: monospace;">Linux version {linux_version}
+    
+    <span style="color: yellow"><<< NixOS Stage 1 >>></span>
+
+    Loading module amdgpu...
+    Loading module dm_mod...
+    Running module udev...
+    St4rting systemd-udevd version {systemd_version}
+    St4rting device mapper and LUM...
+
+    <span style="color: yellow"><<< NixOS Stage 2 >>></span>
+
+    Running activation script...
+    Setting up /etc...
+    St4rting systemd...
+
+    Welcome to NixOS {nixos_version}!
+
+    +Created slice Virtual Machine and Container Slice
+    +Created slice Slice /system/getty
+    +Created slice Slice /system/modprobe
+    +Created slice Slice /system/systemd-fsck
+    +Created slice User and Session Slice
+    +Reached target Local Encrypted Volumes
+    +Reached target Containers
+    +Reached target Path Units
+    +Reached target Slice Units
+    +Listening on Process Core Dump Socket.
+    +Listening on Journal Socket (/dev/log).
+    +Listening on udev Control Socket.
+    +Listening on udev Kernel Socket.
+    --Mounting Huge Pages File System...
+    --Mounting POSIX Message Queue File System...
+    --Mounting Kernel Debug File System...
+    --Starting Create List of Static Device Modes...
+    --Starting Load Kernel Module configfs...
+    --Starting Load Kernel Module drm...
+    --Starting Load Kernel Module efi_pstore...
+    --Starting Load Kernel Module fuse...
+    --Starting Create SUID/SGID Wrappers....
+    --Starting Journal Service.
+    --Starting Load Kernel Modules...
+    --Starting Remount Root and Kernel File Systems...
+    --Starting Coldplug All udev Devices...
+    +Mounted Huge Pages File System.
+    +Mounted POSIX Message Queue File System.
+    +Mounted Kernel Debug File System.
+    +Finished Create List of Static Device Nodes.
+    +Finished Load Kernel Module configfs.
+    +Finished Load Kernel Module drm.
+    +Finished Load Kernel Module efi_pstore.
+    +Finished Load Kernel Module fuse.
+    +Started Journal Service.
+    +Finished Remount Root and Kernel File Systems...
+    +Finished Create SUID/SGID Wrappers....
+    +Finished Coldplug All udev Devices...
+    +Finished Load Kernel Modules.
+    --Mounting FUSE Control File Systems...
+    --Mounting Kernel Configuration File System...
+    --Starting Flush Journal to Persistent Storage
+    +Starting Create Static Devices Nodes in /dev gracefully...
+    +Mounted FUSE Control File Systems.
+    +Mounted Kernel Configuration File System.
+    +Finished Create Static Devices Nodes in /dev gracefully.
+    +Starting Create Static Devices Nodes in /dev...
+    +Finished Flush Journal to Persistent Storage.
+    +Finished Create Static Devices Nodes in /dev.
+    +Reached target System Initialization.
+    +Listening on CUPS Scheduler.
+    +Listening on D-Bus System Message Bus Socket.
+    +Listening on Nix Daemon Socket.
+    +Reached target Socket Units
+    +Reached target Basic System.
+    --Starting Store Sound Card State...
+    --Starting Kernel Auditing...
+    --Starting D-Bus System Message Bus...
+    --Starting Home Manager environment...
+    +Started Reset console on configuration changes.
+    --Starting resolvconf update...
+    --Starting Virtual Machine and Container Registration Service...
+    +Finished resolvconf update.
+    +Started User Login Management.
+    +Started D-Bus System Message Bus.
+    +Started Nix Daemon.
+    +Started Virtual Machine and Container Registration Service.
+    +Finished Home Manager environment.
+    +Started Getty on tty1.
+    +Created slice Slice /user/69.
+    --Starting User Runtime Directory /run/user/69...
+    +Finished User Runtime Directory /run/user/69.
+    --Starting User Management for UID 69...
+  </p>
+  
+  <script>
+    function parseBootMsg(data) {
+      let dynamic_values = [
+        [ "{nixos_version}", `<span style="color: blue">24.05 (Uakari)</span>` ],
+        [ "{linux_version}", "6.6.41" ],
+        [ "{systemd_version}", "255.6" ]
+      ]
+      
+      let special_tokens = [
+        "Created slice",
+        "Reached target",
+        "Listening on",
+        "Mounting",
+        "Starting",
+        "Mounted",
+        "Finished",
+        "Started"
+      ]
+    
+      // Replace Strings
+      let text = data
+        .replaceAll("+", "[&nbsp; OK &nbsp;] ")
+        .replaceAll("--", "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;")
+        .replaceAll("OK", `<span style="color: green">OK</span>`)
+      
+      for (let i = 0; i < dynamic_values.length; i++) {
+        let name = dynamic_values[i][0]
+        let value = dynamic_values[i][1]
+        
+        text = text.replace(name, value)
+      }
+      
+      for (let i = 0; i < special_tokens.length; i++) {
+        let token = special_tokens[i]
+        
+        text = text.replaceAll(token, `<span style="color: gray">${token}</span>`)
+      }
+      
+      text = text.replaceAll("St4rting", "Starting") // So the special_tokens doesnt fuck up some lines
+      
+      return text.split("\n")
+    }
+    
+    function animate(i, len) {
+      line = data[i]
+      
+      boot_text.innerHTML += line + "<br>"
+      window.scroll(0, boot_text.scrollHeight)
+      
+      if (i < len) {
+        setTimeout(animate, 20 + Math.floor(Math.random() * 51), i + 1, len)
+      } else {
+        setTimeout(() => {boot_text.remove()}, 1E3)
+      }
+    }
+    
+    boot_text = document.getElementById("boot_text")
+    data = parseBootMsg(boot_text.innerHTML)
+    
+    boot_text.innerHTML = ""
+    animate(0, data.length - 2)
+  </script>
+</body>
