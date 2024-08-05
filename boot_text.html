@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 
-<body style="overflow: hidden; background: black; color: white;">
-  <p id="boot_text" style="font-family: monospace;">Linux version {linux_version}
+<body style="overflow: hidden; background: black; color: white; margin: 0">
+  <boot_text id="boot_text" style="font-family: monospace; display: block; padding: 8px">Linux version {linux_version}
     
-    <span style="color: yellow"><<< NixOS Stage 1 >>></span>
+    <boot_span style="color: yellow"><<< NixOS Stage 1 >>></boot_span>
 
     Loading module amdgpu...
     Loading module dm_mod...
@@ -11,7 +11,7 @@
     St4rting systemd-udevd version {systemd_version}
     St4rting device mapper and LUM...
 
-    <span style="color: yellow"><<< NixOS Stage 2 >>></span>
+    <boot_span style="color: yellow"><<< NixOS Stage 2 >>></boot_span>
 
     Running activation script...
     Setting up /etc...
@@ -92,12 +92,15 @@
     --Starting User Runtime Directory /run/user/69...
     +Finished User Runtime Directory /run/user/69.
     --Starting User Management for UID 69...
-  </p>
+  </boot_text>
+  
+  <desktop style="background: red; display: none; height: 100vh"></desktop>
   
   <script>
+    // Boot animation
     function parseBootMsg(data) {
       let dynamic_values = [
-        [ "{nixos_version}", `<span style="color: blue">24.05 (Uakari)</span>` ],
+        [ "{nixos_version}", `<boot_span style="color: blue">24.05 (Uakari)</boot_span>` ],
         [ "{linux_version}", "6.6.41" ],
         [ "{systemd_version}", "255.6" ]
       ]
@@ -117,7 +120,7 @@
       let text = data
         .replaceAll("+", "[&nbsp; OK &nbsp;] ")
         .replaceAll("--", "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;")
-        .replaceAll("OK", `<span style="color: green">OK</span>`)
+        .replaceAll("OK", `<boot_span style="color: green">OK</boot_span>`)
       
       for (let i = 0; i < dynamic_values.length; i++) {
         let name = dynamic_values[i][0]
@@ -129,7 +132,7 @@
       for (let i = 0; i < special_tokens.length; i++) {
         let token = special_tokens[i]
         
-        text = text.replaceAll(token, `<span style="color: gray">${token}</span>`)
+        text = text.replaceAll(token, `<boot_span style="color: gray">${token}</boot_span>`)
       }
       
       text = text.replaceAll("St4rting", "Starting") // So the special_tokens doesnt fuck up some lines
@@ -138,22 +141,43 @@
     }
     
     function animate(i, len) {
-      line = data[i]
+      line = boot_text[i]
       
-      boot_text.innerHTML += line + "<br>"
-      window.scroll(0, boot_text.scrollHeight)
+      boot_element.innerHTML += line + "<br>"
+      window.scroll(0, boot_element.scrollHeight)
       
       if (i < len) {
         setTimeout(animate, 20 + Math.floor(Math.random() * 51), i + 1, len)
       } else {
-        setTimeout(() => {boot_text.remove()}, 1E3)
+        setTimeout(() => {
+          apps_fetch.then(response => {
+            response.json().then(apps_data => {
+              boot_element.remove()
+              
+              // Cleanup
+              delete boot_element
+              delete boot_text
+              delete apps_fetch
+              
+              main(apps_data)
+            })
+          })
+        }, 1000)
       }
     }
     
-    boot_text = document.getElementById("boot_text")
-    data = parseBootMsg(boot_text.innerHTML)
+    function main(apps_data) {
+      console.log(apps_data)
+      
+      document.querySelector("desktop").style.display = "block"
+    }
     
-    boot_text.innerHTML = ""
-    animate(0, data.length - 2)
+    boot_element = document.getElementById("boot_text")
+    boot_text = parseBootMsg(boot_element.innerHTML)
+    
+    boot_element.innerHTML = ""
+    
+    apps_fetch = fetch("https://www.reddit.com/user/Background-Plant-226/submitted.json") // Temp
+    animate(0, boot_text.length - 2)
   </script>
 </body>
