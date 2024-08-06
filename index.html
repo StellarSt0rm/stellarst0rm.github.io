@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 
+<head>
+  <script src="./res/js/desktop_manager.js"></script>
+  <script src="./res/js/window_manager.js"></script>
+</head>
 <body style="overflow: hidden; background: black; color: white; margin: 0">
   <boot_text id="boot_text" style="font-family: monospace; display: block; padding: 8px">Linux version {linux_version}
     
@@ -94,10 +98,15 @@
     --Starting User Management for UID 69...
   </boot_text>
   
-  <desktop id="desktop" style="display: none; height: 100vh; animation: zoom-in 1s">
-    <useless_topbar style="height: 3.5vh; width: 100vw; backdrop-filter: blur(30px) brightness(0.6)"></useless_topbar>
-    <apps_container id="apps_container" style="height: calc(100vh - 10vh - 3.5vh); width: 100vw; background: blue; opacity: 0.4; margin-bottom: 0.5vh"></apps_container>
-    <apps_launcher id="apps_launcher" style="height: 8.4vh; width: 400px; backdrop-filter: blur(30px) brightness(0.6); border-radius: 2.5vh"></apps_launcher>
+  <desktop id="desktop" style="display: flex; opacity: 0; height: 100vh; background: url('./res/wallpaper.jpg'); position: fixed">
+    <useless_topbar id="useless_topbar" class="blur-background" style="height: 3.5vh; width: 100vw">
+      <div style="height: 2.5vh;width: 2.5vh;background: red;margin: 0 1.5vh;"></div>
+      <div style="height: 2.5vh;width: 2.5vh;background: red;margin: 0 1.5vh;"></div>
+      <div style="height: 2.5vh;width: 2.5vh;background: red;margin: 0 1.5vh;"></div>
+    </useless_topbar>
+    
+    <apps_container id="apps_container" style="height: calc(100vh - 10vh - 3.5vh); width: 100vw; background: blue; opacity: 0.4; margin-bottom: 0.5vh; position: relative"></apps_container>
+    <apps_launcher id="apps_launcher" class="blur-background" style="height: 8.4vh; width: 400px; border-radius: 2.5vh"></apps_launcher>
     
     <!-- apps_launcher 'width: 400px' is temporary -->
   </desktop>
@@ -105,13 +114,13 @@
   <script>
     // Boot animation
     function parseBootMsg(data) {
-      let dynamic_values = [
+      const dynamic_values = [
         [ "{nixos_version}", `<boot_span style="color: blue">24.05 (Uakari)</boot_span>` ],
         [ "{linux_version}", "6.6.41" ],
         [ "{systemd_version}", "255.6" ]
       ]
       
-      let special_tokens = [
+      const special_tokens = [
         "Created slice",
         "Reached target",
         "Listening on",
@@ -153,7 +162,7 @@
       window.scroll(0, boot_element.scrollHeight)
       
       if (i < len) {
-         setTimeout(animate, 20 + Math.floor(Math.random() * 51), i + 1, len)
+         setTimeout(animate, 0 /*20 + Math.floor(Math.random() * 51)*/, i + 1, len)
       } else {
         setTimeout(() => {
           apps_fetch.then(response => { response.json().then(apps_data => {
@@ -170,37 +179,25 @@
       }
     }
     
-    function main(apps_data) {
-      console.log(apps_data)
-      
-      document.querySelector("desktop").style.display = "flex"
-      document.querySelector("desktop").style.background = window.image_store["desktop"]
-    }
-    
-    function preFetchImages() {
+    /*function preFetchImages() {
       window.image_store = {}
-      let image_list = [ // URLs are temporary
-        [ "desktop", "https://media.discordapp.net/attachments/1244566502213025822/1269982739369689118/uydigstlasgd1.png?ex=66b20b18&is=66b0b998&hm=94d64a0ad5383d910d92eac8717aafd31faacba274b51d94c5ef6a01e774f0f2&=&format=webp&quality=lossless&width=525&height=350"]
+      let image_list = [
+        "./res/wallpaper.jpg"
       ]
       
       for (let i = 0; i < image_list.length; i++) {
-        let element = document.getElementById(image_list[i][0])
-        let url = image_list[i][1]
+        let url = image_list[i]
         
-        fetch(url).then(response => { response.blob().then(image => {
-          //element.style.background = `url(${URL.createObjectURL(image)})`
-          window.image_store[element.id] = `url(${URL.createObjectURL(image)})` // Save images to window.image_store, to access later
-        })})
+        fetch(url) // Prefetch images, so they are already cached
       }
-    }
+    }*/
     
     boot_element = document.getElementById("boot_text")
     boot_text = parseBootMsg(boot_element.innerHTML)
     
     boot_element.innerHTML = ""
     
-    apps_fetch = fetch("https://www.reddit.com/user/Background-Plant-226/submitted.json") // Temp
-    preFetchImages() // Pre-Fetch images
+    apps_fetch = fetch("./res/apps_data.json") // Temp
     animate(0, boot_text.length - 2)
     
     
@@ -232,11 +229,33 @@
       flex-direction: column;
       align-items: center;
     }
+    
+    #useless_topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    /* Detect if a browser supports backdrop-filter... *ehem* Safari *ehem* */
+    .blur-background {
+      background: black;
+    }
+    
+    @supports (backdrop-filter: blur(30px) brightness(0.6)) {
+      .blur-background {
+        backdrop-filter: blur(30px) brightness(0.6);
+        background: none;
+      }
+      
+      #unsupported-alert {
+        visibility: hidden;
+      }
+    }
   
     @keyframes zoom-in {
       from {
-        opacity: 40%;
-        scale: 0.8;
+        opacity: 70%;
+        scale: 0.9;
       }
       to {
         opacity: 100%;
