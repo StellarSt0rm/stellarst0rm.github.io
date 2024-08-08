@@ -1,3 +1,5 @@
+// TODO: Pass A LOT of styles to CSS, and CSS classes!
+
 globalThis.desktop_windows = []
 
 // Handle when windows exit the apps_container when resising the screen
@@ -20,7 +22,9 @@ window.addEventListener("resize", () => {
 })
 
 class DesktopWindow {
-  constructor(data, id) {
+  constructor(data, id = "") {
+    if (!data) throw Error("Argument 'data' must be defined!")
+    
     const desktop_window = document.createElement("desktop_window")
     const topbar = document.createElement("topbar")
     const apps_container = document.getElementById("apps_container")
@@ -36,7 +40,7 @@ class DesktopWindow {
     desktop_window.style.position = "absolute"
     desktop_window.style.borderRadius = "1.3dvh"
     desktop_window.style.overflow = "hidden"
-    desktop_window.style.boxShadow = "0 0 10px 5px #33333375"
+    desktop_window.style.boxShadow = "0 0 1.1dvh 0.5dvh #33333375"
     
     topbar.style.height = "8%" // Former: 2dvh
     topbar.style.width = "100%"
@@ -67,8 +71,8 @@ class DesktopWindow {
     apps_container.appendChild(desktop_window)
     desktop_windows.push(desktop_window)
     
-    desktop_window.addEventListener("mousedown", desktop_window.moveToTop)
-    desktop_window.addEventListener("touchstart", desktop_window.moveToTop)
+    desktop_window.addEventListener("mousedown", desktop_window.moveToTop, { passive: true })
+    desktop_window.addEventListener("touchstart", desktop_window.moveToTop, { passive: true })
     desktop_window.moveToTop()
     
     return desktop_window
@@ -85,9 +89,11 @@ class DesktopWindow {
     for (let i = 0; i < desktop_windows.length; i++) {
       desktop_windows[i].style.zIndex = i
       desktop_windows[i].style.filter = "brightness(1)"
+      desktop_windows[i].style.transition = "none"
       
       if (i != desktop_windows.length - 1) {
         desktop_windows[i].style.filter = "brightness(0.6)"
+        desktop_windows[i].style.transition = "filter 0.4s"
       }
     }
   }
