@@ -146,6 +146,8 @@ class DesktopWindow {
       handleMove(e.clientX, e.clientY)
     }
     function onTouchMove(e) {
+      e.preventDefault()
+      
       // Handle the first touch point
       const touch = e.touches[0]
       handleMove(touch.clientX, touch.clientY)
