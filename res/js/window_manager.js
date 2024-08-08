@@ -19,27 +19,16 @@ window.addEventListener("resize", () => {
   }
 })
 
-/*
-let array = [1, 2, 3, 4, 5];
-let valueToRemove = 3;
-let index = array.indexOf(valueToRemove);
-
-if (index > -1) {
-    array.splice(index, 1);
-}
-
-console.log(array); // Output: [1, 2, 4, 5]
-*/
-
 class DesktopWindow {
   constructor(data, id = "") {
-    let desktop_window = document.createElement("desktop_window")
-    let apps_container = document.getElementById("apps_container")
-    let topbar = document.createElement("topbar")
+    const desktop_window = document.createElement("desktop_window")
+    const topbar = document.createElement("topbar")
+    const apps_container = document.getElementById("apps_container")
     
-    desktop_window.id = id
-    desktop_window.class = "desktop_window"
+    if (id) desktop_window.id = id
+    desktop_window.className = "desktop_window"
     
+    /* Pass to CSS */
     desktop_window.style.height = "50dvh" // Former: 22dvh
     desktop_window.style.width = "80dvh" // Former: 30dvh
     desktop_window.style.display = "block"
@@ -52,27 +41,38 @@ class DesktopWindow {
     topbar.style.width = "100%"
     topbar.style.display = "block"
     topbar.style.background = "red"
-    
-    desktop_window.appendChild(topbar)
-    this.makeDraggable(desktop_window, apps_container)
+    /* Pass to CSS */
     
     desktop_window.deleteWindow = this.deleteWindow
-    window.moveToTop = this.moveToTop
+    desktop_window.makeDraggable = this.makeDraggable
+    desktop_window.makeUndraggable = this.makeUndraggable
+    desktop_window.moveToTop = this.moveToTop
+    
+    desktop_window.appendChild(topbar)
+    desktop_window.makeDraggable(apps_container)
+    
+    // Detect those pesky phone screens.
+    if (window.innerHeight * 0.80 > window.innerWidth) {
+      desktop_window.style.height = "100%"
+      desktop_window.style.width = "100%"
+      desktop_window.style.borderRadius = "0 0 1.3dvh 1.3dvh"
+      
+      desktop_window.makeUndraggable()
+    }
     
     apps_container.appendChild(desktop_window)
     desktop_windows.push(desktop_window)
     
-    desktop_window.addEventListener("mousedown", window.moveToTop)
-    desktop_window.addEventListener("touchstart", window.moveToTop)
-    window.moveToTop()
-    
+    desktop_window.addEventListener("mousedown", desktop_window.moveToTop)
+    desktop_window.addEventListener("touchstart", desktop_window.moveToTop)
+    desktop_window.moveToTop()
     
     console.log(desktop_windows)
     return desktop_window
   }
   
   moveToTop() {
-    let index = desktop_windows.indexOf(this)
+    const index = desktop_windows.indexOf(this)
     
     if (index > -1) {
       desktop_windows.splice(index, 1)
@@ -90,27 +90,36 @@ class DesktopWindow {
   }
   
   deleteWindow() {
-    let index = desktop_windows.indexOf(this)
+    const index = desktop_windows.indexOf(this)
     
     desktop_windows.splice(index, 1)
     this.parentElement.removeChild(this)
   }
   
+  makeUndraggable() {
+    this.desktop_draggable = false
+  }
+  
   /* HACK HOUSE 2 */
-  makeDraggable(desktop_window, container) {
+  makeDraggable(container = this.container) {
+    if (!container) throw Error("Argument 'container' must be defined at least once per window.")
+    
+    const desktop_window = this
     const topbar = desktop_window.querySelector("topbar")
 
     let offsetX, offsetY;
 
     function startDrag(e) {
       e.preventDefault()
+      
+      if (!desktop_window.desktop_draggable) return
 
       if (e.type === "touchstart") {
         // For touch events
         offsetX = e.changedTouches[0].clientX - topbar.getBoundingClientRect().left
         offsetY = e.changedTouches[0].clientY - topbar.getBoundingClientRect().top
       } else {
-        if (e.which == 3) return // Prevent drag on right click
+        if (e.which != 1) return // Prevent drag on right/middle click
         
         // For mouse events
         offsetX = e.clientX - topbar.getBoundingClientRect().left
@@ -155,8 +164,11 @@ class DesktopWindow {
       document.removeEventListener("touchmove", onTouchMove)
       document.removeEventListener("touchend", stopDrag)
     }
-
+    
     topbar.addEventListener("mousedown", startDrag)
     topbar.addEventListener("touchstart", startDrag)
+    
+    desktop_window.container = container
+    desktop_window.desktop_draggable = true
   }
 }
