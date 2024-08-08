@@ -20,7 +20,7 @@ window.addEventListener("resize", () => {
 })
 
 class DesktopWindow {
-  constructor(data, id = "") {
+  constructor(data, id) {
     const desktop_window = document.createElement("desktop_window")
     const topbar = document.createElement("topbar")
     const apps_container = document.getElementById("apps_container")
@@ -71,7 +71,6 @@ class DesktopWindow {
     desktop_window.addEventListener("touchstart", desktop_window.moveToTop)
     desktop_window.moveToTop()
     
-    console.log(desktop_windows)
     return desktop_window
   }
   

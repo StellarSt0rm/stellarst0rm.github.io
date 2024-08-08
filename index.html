@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <head>
+  <title>StellarSt0rm' Website</title>
   <script src="./res/js/desktop_manager.js"></script>
   <script src="./res/js/window_manager.js"></script>
 </head>
@@ -165,42 +166,32 @@
       window.scroll(0, boot_element.scrollHeight)
       
       if (i < len) {
-         setTimeout(animate, 0 /*20 + Math.floor(Math.random() * 51)*/, i + 1, len)
+         setTimeout(animate, 0 /*20 + Math.floor(Math.random() * 51)*/, i + 1, len) //TODO: Uncomment delay when everything done
       } else {
         setTimeout(() => {
-          apps_fetch.then(response => { response.json().then(apps_data => {
-            boot_element.remove()
-            
-            // Cleanup
-            delete boot_element
-            delete boot_text
-            delete apps_fetch
-            
-            main(apps_data)
-          })})
+          const desktop = document.querySelector("desktop")
+          
+          boot_element.remove()
+          
+          // Cleanup
+          delete boot_element
+          delete boot_text
+          delete apps_fetch
+          
+          // Show desktop
+          desktop.style.opacity = "1"
+          desktop.style.animation = "zoom-in 1s"
         }, 1000)
       }
     }
     
-    /*function preFetchImages() {
-      window.image_store = {}
-      let image_list = [
-        "./res/wallpaper.jpg"
-      ]
-      
-      for (let i = 0; i < image_list.length; i++) {
-        let url = image_list[i]
-        
-        fetch(url) // Prefetch images, so they are already cached
-      }
-    }*/
-    
     boot_element = document.getElementById("boot_text")
     boot_text = parseBootMsg(boot_element.innerHTML)
+    apps_fetch = fetch("./res/apps_data.json").then(response => { response.json().then(apps_data => {
+      main(apps_data)
+    })})
     
     boot_element.innerHTML = ""
-    
-    apps_fetch = fetch("./res/apps_data.json") // Temp
     animate(0, boot_text.length - 2)
     
     
