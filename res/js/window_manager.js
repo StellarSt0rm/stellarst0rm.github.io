@@ -40,15 +40,15 @@ class DesktopWindow {
     desktop_window.id = id
     desktop_window.class = "desktop_window"
     
-    desktop_window.style.height = "50vh" // Former: 22vh
-    desktop_window.style.width = "80vh" // Former: 30vh
+    desktop_window.style.height = "50dvh" // Former: 22dvh
+    desktop_window.style.width = "80dvh" // Former: 30dvh
     desktop_window.style.display = "block"
     desktop_window.style.background = "white"
     desktop_window.style.position = "absolute"
-    desktop_window.style.borderRadius = "1.3vh"
+    desktop_window.style.borderRadius = "1.3dvh"
     desktop_window.style.overflow = "hidden"
     
-    topbar.style.height = "8%" // Former: 2vh
+    topbar.style.height = "8%" // Former: 2dvh
     topbar.style.width = "100%"
     topbar.style.display = "block"
     topbar.style.background = "red"
