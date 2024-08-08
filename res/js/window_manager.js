@@ -36,6 +36,7 @@ class DesktopWindow {
     desktop_window.style.position = "absolute"
     desktop_window.style.borderRadius = "1.3dvh"
     desktop_window.style.overflow = "hidden"
+    desktop_window.style.boxShadow = "0 0 10px 5px #33333375"
     
     topbar.style.height = "8%" // Former: 2dvh
     topbar.style.width = "100%"
@@ -53,9 +54,12 @@ class DesktopWindow {
     
     // Detect those pesky phone screens.
     if (window.innerHeight * 0.80 > window.innerWidth) {
+      /* Make the styles of this be controlled with a CSS class */
       desktop_window.style.height = "100%"
       desktop_window.style.width = "100%"
       desktop_window.style.borderRadius = "0 0 1.3dvh 1.3dvh"
+      
+      topbar.style.height = "4.6%"
       
       desktop_window.makeUndraggable()
     }
