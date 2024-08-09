@@ -169,16 +169,46 @@
       return text.split("\n")
     }
     
+    /*function animate(i, len) {
+      let line = boot_text[i]
+      
+      console.log("Boot animation iteration", i)
+      
+      boot_element.innerHTML += line + "<br>"
+      window.scroll(0, boot_element.scrollHeight)
+      
+      if (i < len) {
+         setTimeout(animate, 0 /*20 + Math.floor(Math.random() * 51)*\/, i + 1, len) //TODO: Uncomment delay when everything done
+      } else {
+        setTimeout(() => {
+          const desktop = document.querySelector("desktop")
+          
+          boot_element.remove()
+          
+          // Cleanup
+          delete boot_element
+          delete boot_text
+          delete apps_fetch
+          
+          // Show desktop
+          desktop.style.opacity = "1"
+          desktop.style.animation = "zoom-in 1s"
+          
+          console.log("Boot animaton end. Removed boot_element. Showing desktop.")
+        }, 1000)
+      }
+    }*/
+    
     function animate(boot_element, boot_text) {
       boot_element.innerHTML = ""
       
-      boot_text.forEach((line, i) => {
-        setTimeout(() => {
+      boot_text.forEach(async (line, i) => {
+        await setTimeout(async () => {
          boot_element.innerHTML += line + "<br>"
          window.scroll(0, boot_element.scrollHeight)
          
          if (i == boot_text.length - 1) {
-           setTimeout(() => {
+           await setTimeout(() => {
              const desktop = document.querySelector("desktop")
              
              boot_element.remove()
@@ -192,7 +222,7 @@
              desktop.style.animation = "zoom-in 1s"
            }, 1000)
          }
-        }, i * 20 + 20 + Math.floor(Math.random() * 51))
+        }, i * 30)
       })
     }
     
