@@ -202,13 +202,13 @@
     function animate(boot_element, boot_text) {
       boot_element.innerHTML = ""
       
-      boot_text.forEach(async (line, i) => {
-        await setTimeout(async () => {
+      boot_text.forEach((line, i) => {
+        setTimeout(() => {
          boot_element.innerHTML += line + "<br>"
          window.scroll(0, boot_element.scrollHeight)
          
          if (i == boot_text.length - 1) {
-           await setTimeout(() => {
+           setTimeout(() => {
              const desktop = document.querySelector("desktop")
              
              boot_element.remove()
