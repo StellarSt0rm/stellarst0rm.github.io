@@ -2,7 +2,7 @@
 
 globalThis.desktop_windows = []
 
-// Handle when windows exit the apps_container when resising the screen
+// Handle when windows exit the apps_container when resizing the screen
 window.addEventListener("resize", () => {
   for (let i = 0; i < desktop_windows.length; i++) {
     let desktop_window = desktop_windows[i]
