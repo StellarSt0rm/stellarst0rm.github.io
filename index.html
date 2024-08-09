@@ -144,6 +144,8 @@
         .replaceAll("+", "[&nbsp; OK &nbsp;] ")
         .replaceAll("--", "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;")
         .replaceAll("OK", `<boot_span style="color: green">OK</boot_span>`)
+        
+      console.log("Replaced static values.")
       
       for (let i = 0; i < dynamic_values.length; i++) {
         let name = dynamic_values[i][0]
@@ -151,6 +153,8 @@
         
         text = text.replace(name, value)
       }
+      
+      console.log("Replaced dynamic values.")
       
       for (let i = 0; i < special_tokens.length; i++) {
         let token = special_tokens[i]
@@ -160,11 +164,15 @@
       
       text = text.replaceAll("St4rting", "Starting") // So the special_tokens doesnt fuck up some lines
       
+      console.log("Replaced special tokens.")
+      
       return text.split("\n")
     }
     
     function animate(i, len) {
       let line = boot_text[i]
+      
+      console.log("Boot animation iteration", i)
       
       boot_element.innerHTML += line + "<br>"
       window.scroll(0, boot_element.scrollHeight)
@@ -185,6 +193,8 @@
           // Show desktop
           desktop.style.opacity = "1"
           desktop.style.animation = "zoom-in 1s"
+          
+          console.log("Boot animaton end. Removed boot_element. Showing desktop.")
         }, 1000)
       }
     }
