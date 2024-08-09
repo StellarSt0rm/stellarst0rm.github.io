@@ -168,7 +168,9 @@ class DesktopWindow {
       desktop_window.style.left = `${left}px`
       desktop_window.style.top = `${top}px`
     }
-    function stopDrag() {
+    function stopDrag(e) {
+      e.preventDefault()
+      
       document.removeEventListener("mousemove", onMouseMove)
       document.removeEventListener("mouseup", stopDrag)
 
