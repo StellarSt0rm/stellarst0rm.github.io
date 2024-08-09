@@ -7,6 +7,16 @@ window.addEventListener("resize", () => {
   for (let i = 0; i < desktop_windows.length; i++) {
     let desktop_window = desktop_windows[i]
     
+    if (window.innerHeight * 0.80 > window.innerWidth) {
+      desktop_window.classList.add("full")
+      desktop_window.makeUndraggable()
+      
+      continue // Dont calculate clamping when they are .full, to save performance (Plus fixes some bugs!)
+    } else {
+      desktop_window.classList.remove("full")
+      desktop_window.makeDraggable()
+    }
+    
     let containerRect = desktop_window.parentElement.getBoundingClientRect()
     let windowRect = desktop_window.getBoundingClientRect()
     
@@ -32,22 +42,6 @@ class DesktopWindow {
     if (id) desktop_window.id = id
     desktop_window.className = "desktop_window"
     
-    /* Pass to CSS */
-    desktop_window.style.height = "50dvh" // Former: 22dvh
-    desktop_window.style.width = "80dvh" // Former: 30dvh
-    desktop_window.style.display = "block"
-    desktop_window.style.background = "white"
-    desktop_window.style.position = "absolute"
-    desktop_window.style.borderRadius = "1.3dvh"
-    desktop_window.style.overflow = "hidden"
-    desktop_window.style.boxShadow = "0 0 1.1dvh 0.5dvh #33333375"
-    
-    topbar.style.height = "8%" // Former: 2dvh
-    topbar.style.width = "100%"
-    topbar.style.display = "block"
-    topbar.style.background = "red"
-    /* Pass to CSS */
-    
     desktop_window.deleteWindow = this.deleteWindow
     desktop_window.makeDraggable = this.makeDraggable
     desktop_window.makeUndraggable = this.makeUndraggable
@@ -58,13 +52,7 @@ class DesktopWindow {
     
     // Detect those pesky phone screens.
     if (window.innerHeight * 0.80 > window.innerWidth) {
-      /* Make the styles of this be controlled with a CSS class */
-      desktop_window.style.height = "100%"
-      desktop_window.style.width = "100%"
-      desktop_window.style.borderRadius = "0 0 1.3dvh 1.3dvh"
-      
-      topbar.style.height = "4.6%"
-      
+      desktop_window.classList.add("full")
       desktop_window.makeUndraggable()
     }
     
@@ -81,10 +69,8 @@ class DesktopWindow {
   moveToTop() {
     const index = desktop_windows.indexOf(this)
     
-    if (index > -1) {
-      desktop_windows.splice(index, 1)
-      desktop_windows.push(this)
-    }
+    desktop_windows.splice(index, 1)
+    desktop_windows.push(this)
     
     for (let i = 0; i < desktop_windows.length; i++) {
       desktop_windows[i].style.zIndex = i
@@ -103,6 +89,8 @@ class DesktopWindow {
     
     desktop_windows.splice(index, 1)
     this.parentElement.removeChild(this)
+    
+    desktop_windows.at(-1).moveToTop() // Recalculate window focus
   }
   
   makeUndraggable() {
@@ -139,7 +127,7 @@ class DesktopWindow {
       document.addEventListener("mouseup", stopDrag)
 
       document.addEventListener("touchmove", onTouchMove)
-      document.addEventListener("touchend", stopDrag, { passive: true })
+      document.addEventListener("touchend", stopDrag)
     }
 
     function onMouseMove(e) {
