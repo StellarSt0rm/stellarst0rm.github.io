@@ -1,6 +1,0 @@
-{
-  "js": {
-    "mangle": false,
-    "mangleClassNames": false,
-  }
-}
