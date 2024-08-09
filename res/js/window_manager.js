@@ -139,7 +139,7 @@ class DesktopWindow {
       document.addEventListener("mouseup", stopDrag)
 
       document.addEventListener("touchmove", onTouchMove)
-      document.addEventListener("touchend", stopDrag)
+      document.addEventListener("touchend", stopDrag, { passive: true })
     }
 
     function onMouseMove(e) {
@@ -169,8 +169,6 @@ class DesktopWindow {
       desktop_window.style.top = `${top}px`
     }
     function stopDrag(e) {
-      e.preventDefault()
-      
       document.removeEventListener("mousemove", onMouseMove)
       document.removeEventListener("mouseup", stopDrag)
 
