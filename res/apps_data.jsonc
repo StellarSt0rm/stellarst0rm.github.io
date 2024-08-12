@@ -1,0 +1,12 @@
+// Format:
+// "name" - The name of the window
+// "url" - URL to the app .html file
+
+// How to parse: JSON.parse(<data>.replaceAll(/\/\/.*\n/g, ""))
+
+[
+  {
+    "name": "Call center frenzy!",
+    "url": "/static/minigame.html"
+  }
+]

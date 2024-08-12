@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<minigame_container>
+  <p>Oh no! You wanted to cancel your «Questionable» subscription...<br>But the website told you to call <span style="color: red; font-weight: bold">CUSTOMER SUPPORT</span>!</p>
+  
+  <phone_container>
+    <div id="minigame_phone" alt="Le Phone!"></div>
+    
+    <div id="minigame_box" style="">
+      <i>Sorry, Customer Support representatives are only available on Mondays, Tuesdays and Fridays. Please call another time!</i>
+    </div>
+  </phone_container>
+</container>
+
+<style>
+  minigame_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    color: black;
+  }
+  
+  minigame_container p {
+    font-size: 2dvh;
+    text-align: center;
+  }
+  
+  minigame_container phone_container {
+    display: flex;
+    justify-content: center;
+    margin-top: 5dvh;
+    transform: translateX(-4dvh);
+  }
+  
+  minigame_container #minigame_phone {
+    height: 15dvh;
+    width: 15dvh;
+    
+    box-shadow: 0 0 3px 3px inset white;
+    transform: translateY(12dvh) translateX(8dvh);
+
+    background: url(./res/minigame/phone.avif);
+    background-size: cover;
+  }
+  
+  minigame_container #minigame_box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: sticky;
+    
+    height: 17dvh;
+    width: 35dvh;
+    
+    background: url(./res/minigame/speech_bubble.svg);
+    background-size: cover;
+  }
+  
+  minigame_container #minigame_box i {
+    height: 62%;
+    width: 75%;
+    
+    color: white;
+    margin-left: 5%;
+    margin-bottom: 6%;
+    
+    text-align: center;
+    text-wrap: balance;
+    font-size: 1.65dvh;
+    
+    overflow: scroll;
+    scrollbar-color: white transparent;
+  }
+</style>

@@ -2,7 +2,7 @@
 
 globalThis.desktop_windows = []
 
-// Handle when windows exit the apps_container when resizing the screen
+// Handle when windows exit the apps_container when resising the screen
 window.addEventListener("resize", () => {
   for (let i = 0; i < desktop_windows.length; i++) {
     let desktop_window = desktop_windows[i]
@@ -37,15 +37,18 @@ class DesktopWindow {
     
     const desktop_window = document.createElement("desktop_window")
     const topbar = document.createElement("topbar")
+    const iframe = document.createElement("iframe")
+    
     const apps_container = document.getElementById("apps_container")
     
     if (id) desktop_window.id = id
     desktop_window.className = "desktop_window"
     
-    desktop_window.deleteWindow = this.deleteWindow
+    desktop_window.delete = this.delete
+    desktop_window.hide = this.hide
     desktop_window.makeDraggable = this.makeDraggable
     desktop_window.makeUndraggable = this.makeUndraggable
-    desktop_window.moveToTop = this.moveToTop
+    desktop_window.focus = this.focus // Also shows window if it's hidden!
     
     desktop_window.appendChild(topbar)
     desktop_window.makeDraggable(apps_container)
@@ -59,38 +62,57 @@ class DesktopWindow {
     apps_container.appendChild(desktop_window)
     desktop_windows.push(desktop_window)
     
-    desktop_window.addEventListener("mousedown", desktop_window.moveToTop, { passive: true })
-    desktop_window.addEventListener("touchstart", desktop_window.moveToTop, { passive: true })
-    desktop_window.moveToTop()
+    desktop_window.addEventListener("mousedown", desktop_window.focus, { passive: true })
+    desktop_window.addEventListener("touchstart", desktop_window.focus, { passive: true })
+    desktop_window.focus()
     
     return desktop_window
   }
   
-  moveToTop() {
+  focus() {
     const index = desktop_windows.indexOf(this)
     
     desktop_windows.splice(index, 1)
     desktop_windows.push(this)
     
+    this.desktop_hidden = false
+    this.style.visibility = "visible"
+
     for (let i = 0; i < desktop_windows.length; i++) {
       desktop_windows[i].style.zIndex = i
-      desktop_windows[i].style.filter = "brightness(1)"
-      desktop_windows[i].style.transition = "none"
       
       if (i != desktop_windows.length - 1) {
         desktop_windows[i].style.filter = "brightness(0.6)"
         desktop_windows[i].style.transition = "filter 0.4s"
+        continue
       }
+      
+      desktop_windows[i].style.filter = "brightness(1)"
+      desktop_windows[i].style.transition = "none"
     }
   }
   
-  deleteWindow() {
+  hide() {
+    this.style.visibility = "hidden"
+    this.desktop_hidden = true
+    
+    // Recalculate window focus
+    let index = desktop_windows.indexOf(this) - 1
+    
+    if (desktop_windows.at(-1) != this) {
+      index = -1
+    }
+    
+    desktop_windows.at(index).focus()
+  }
+  
+  delete() {
     const index = desktop_windows.indexOf(this)
     
     desktop_windows.splice(index, 1)
     this.parentElement.removeChild(this)
     
-    desktop_windows.at(-1).moveToTop() // Recalculate window focus
+    desktop_windows.at(-1).focus() // Recalculate window focus
   }
   
   makeUndraggable() {
@@ -134,8 +156,6 @@ class DesktopWindow {
       handleMove(e.clientX, e.clientY)
     }
     function onTouchMove(e) {
-      e.preventDefault()
-      
       // Handle the first touch point
       const touch = e.touches[0]
       handleMove(touch.clientX, touch.clientY)

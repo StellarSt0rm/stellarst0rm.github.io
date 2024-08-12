@@ -105,17 +105,17 @@
   
   <desktop id="desktop" style="opacity: 0">
     <useless_topbar id="useless_topbar" class="blur-background">
-      <div style="height: 2.5dvh;width: 2.5dvh;background: red;margin: 0 1.5dvh;"></div>
-      <div style="height: 2.5dvh;width: 2.5dvh;background: red;margin: 0 1.5dvh;"></div>
-      <div style="height: 2.5dvh;width: 2.5dvh;background: red;margin: 0 1.5dvh;"></div>
+      <div style="height: 2.5vh;width: 2.5vh;background: red;margin: 0 1.5vh;"></div>
+      <div style="height: 2.5vh;width: 2.5vh;background: red;margin: 0 1.5vh;"></div>
+      <div style="height: 2.5vh;width: 2.5vh;background: red;margin: 0 1.5vh;"></div>
     </useless_topbar>
     
     <apps_container id="apps_container"></apps_container>
     
     <apps_launcher id="apps_launcher" class="blur-background">
-      <div style="height: 5dvh;width: 5dvh;background: red;margin: 0 1.5dvh;"></div>
-      <div style="height: 5dvh;width: 5dvh;background: red;margin: 0 1.5dvh;"></div>
-      <div style="height: 5dvh;width: 5dvh;background: red;margin: 0 1.5dvh;"></div>
+      <div style="height: 5vh;width: 5vh;background: red;margin: 0 1.5vh;"></div>
+      <div style="height: 5vh;width: 5vh;background: red;margin: 0 1.5vh;"></div>
+      <div style="height: 5vh;width: 5vh;background: red;margin: 0 1.5vh;"></div>
     </apps_launcher>
   </desktop>
   
@@ -199,7 +199,8 @@
     boot_element = document.getElementById("boot_text")
     boot_text = parseBootMsg(boot_element.innerHTML)
     
-    fetch("./res/apps_data.json").then(response => { response.json().then(apps_data => {
+    fetch("./res/apps_data.jsonc").then(response => { response.text().then(apps_data => {
+      apps_data = JSON.parse(apps_data.replaceAll(/\/\/.*\n/g, ""))
       main(apps_data)
     })})
     
@@ -246,7 +247,7 @@
       align-items: center;
       z-index: 1;
       
-      height: 3dvh;
+      height: 3vh;
       width: 100%;
     }
     
@@ -258,7 +259,7 @@
       width: 100%;
       
       background: #0000ff66;
-      margin-bottom: 0.8dvh;
+      margin-bottom: 0.8vh;
     }
     
     #apps_launcher {
@@ -266,9 +267,9 @@
       align-items: center;
       z-index: 1;
       
-      height: 8.4dvh;
+      height: 8.4vh;
       
-      border-radius: 2.5dvh;
+      border-radius: 2.5vh;
     }
     
     /* Desktop Windows */
@@ -276,13 +277,13 @@
       display: block;
       position: absolute;
       
-      height: 50dvh;
-      width: 80dvh;
+      height: 50vh;
+      width: 80vh;
       
       background: white;
-      border-radius: 1.3dvh;
+      border-radius: 1.3vh;
       overflow: hidden;
-      box-shadow: 0 0 1.1dvh 0.5dvh #33333375;
+      box-shadow: 0 0 1.1vh 0.5vh #33333375;
     }
     
     .desktop_window topbar {
@@ -301,7 +302,7 @@
       height: 100%;
       width: 100%;
       
-      border-radius: 0 0 1.3dvh 1.3dvh;
+      border-radius: 0 0 1.3vh 1.3vh;
     }
     
     .desktop_window.full topbar {
