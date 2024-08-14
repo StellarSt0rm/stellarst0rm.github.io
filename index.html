@@ -105,17 +105,21 @@
   
   <desktop id="desktop" style="opacity: 0">
     <useless_topbar id="useless_topbar" class="blur-background">
-      <div style="height: 2.5vh;width: 2.5vh;background: red;margin: 0 1.5vh;"></div>
-      <div style="height: 2.5vh;width: 2.5vh;background: red;margin: 0 1.5vh;"></div>
-      <div style="height: 2.5vh;width: 2.5vh;background: red;margin: 0 1.5vh;"></div>
+      <img id="unsupported_alert" src="/res/img/dialog-error.svg">
+      <div id="clock">Aug 14 11:69</div>
+      <div style="margin: 0 1.5vh; display: flex; align-items: center">
+        <img src="/res/img/audio-volume-muted.svg" style="height: 2.5vh">
+        <img src="/res/img/battery-060.svg" style="height: 2.5vh; margin-left: 1vh">
+        69%
+      </div>
     </useless_topbar>
     
     <apps_container id="apps_container"></apps_container>
     
     <apps_launcher id="apps_launcher" class="blur-background">
-      <div style="height: 5vh;width: 5vh;background: red;margin: 0 1.5vh;"></div>
-      <div style="height: 5vh;width: 5vh;background: red;margin: 0 1.5vh;"></div>
-      <div style="height: 5vh;width: 5vh;background: red;margin: 0 1.5vh;"></div>
+      <div></div>
+      <div></div>
+      <div></div>
     </apps_launcher>
   </desktop>
   
@@ -192,7 +196,7 @@
              desktop.style.animation = "zoom-in 1s"
            }, 1000)
          }
-        }, i * 30)
+        }, /*i * 30*/)
       })
     }
     
@@ -236,7 +240,7 @@
       height: 100dvh;
       width: 100dvw;
       
-      background: url("./res/wallpaper.avif");
+      background: url("/res/img/wallpaper.avif");
       background-size: cover;
       background-position: center;
     }
@@ -249,6 +253,13 @@
       
       height: 3vh;
       width: 100%;
+      
+      font-family: Cantarell;
+      font-weight: bold;
+      
+      cursor: default;
+      user-select: none;
+      font-size: 1.6vh;
     }
     
     #apps_container {
@@ -270,6 +281,20 @@
       height: 8.4vh;
       
       border-radius: 2.5vh;
+      padding: 0 1vh;
+    }
+    
+    #apps_launcher > div {
+      height: 6vh;
+      width: 6vh;
+      
+      background: red;
+      margin: 0 0.5vh;
+      border-radius: 2vh;
+      
+      &:hover {
+        background: #56353c;
+      }
     }
     
     /* Desktop Windows */
@@ -280,10 +305,10 @@
       height: 50vh;
       width: 80vh;
       
-      background: white;
+      background: #1f1f1f;
       border-radius: 1.3vh;
       overflow: hidden;
-      box-shadow: 0 0 1.1vh 0.5vh #33333375;
+      box-shadow: 0 0 1.1vh 0.5vh #00000066;
     }
     
     .desktop_window topbar {
@@ -292,7 +317,8 @@
       height: 8%;
       width: 100%;
       
-      background: red;
+      background: #303030;
+      border-bottom: solid 0.2vh #161616;
     }
     
     .desktop_window.full {
@@ -314,13 +340,19 @@
       background: black;
     }
     
+    #unsupported_alert {
+      height: 2.5vh;
+      margin: 0 1.5vh;
+      margin-right: calc(1.5vh + 9.5vh);
+    }
+    
     @supports (backdrop-filter: blur(30px) brightness(0.6)) {
       .blur-background {
         backdrop-filter: blur(30px) brightness(0.6);
         background: none;
       }
       
-      #unsupported-alert {
+      #unsupported_alert {
         visibility: hidden;
       }
     }
