@@ -1,18 +1,20 @@
+// TODO: Pass A LOT of styles to CSS, and CSS classes!
+
 globalThis.desktop_windows = []
 
 // Handle when windows exit the windows_container when resising the screen
 window.addEventListener("resize", () => {
   for (let i = 0; i < desktop_windows.length; i++) {
-    let desktop_window = desktop_windows[i].window
+    let desktop_window = desktop_windows[i]
     
     if (window.innerHeight * 0.80 > window.innerWidth) {
       desktop_window.classList.add("full")
-      desktop_window.object.makeUndraggable()
+      desktop_window.makeUndraggable()
       
       continue // Dont calculate clamping when they are .full, to save performance (Plus fixes some bugs!)
     } else {
       desktop_window.classList.remove("full")
-      desktop_window.object.makeDraggable()
+      desktop_window.makeDraggable()
     }
     
     let containerRect = desktop_window.parentElement.getBoundingClientRect()
@@ -39,16 +41,13 @@ class DesktopWindow {
     // There's an optional 'short_name' attribute that will be used instead of 'name' for the apps_launcher
     
     const desktop_window = document.createElement("desktop_window")
-    const app_icon = document.createElement("icon")
-    
     const windows_container = document.getElementById("windows_container")
-    const apps_launcher = document.getElementById("apps_launcher")
     
     const window_template = `
       <topbar class="font-bold">
-        <div><div id="window_refresh"></div></div>
+        <img id="window_refresh" src="/res/img/view-refresh.svg" onclick="this.parentElement.parentElement.refresh()">
         <p>${data.name}</p>
-        <img id="window_close" src="/res/img/window_close.svg">
+        <img id="window_close" src="/res/img/window-close.svg" onclick="this.parentElement.parentElement.hide()">
       </topbar>
       <app_container></app_container>
     `
@@ -57,55 +56,33 @@ class DesktopWindow {
     desktop_window.className = "desktop_window"
     desktop_window.innerHTML = window_template
     
-    app_icon.innerHTML = `<img src="${data.icon}" style="width: 5vh; height: 5vh"><div>`
-    app_icon.onclick = () => {
-      if (this.focused) this.hide()
-      else this.focus()
-    }
-    apps_launcher.appendChild(app_icon)
+    desktop_window.delete = this.delete
+    desktop_window.hide = this.hide
+    desktop_window.makeDraggable = this.makeDraggable
+    desktop_window.makeUndraggable = this.makeUndraggable
+    desktop_window.focus = this.focus // Also shows window if it's hidden!
+    desktop_window.refresh = this.refresh
     
-    windows_container.appendChild(desktop_window)
-    desktop_windows.push(this)
+    desktop_window.url = data.url
     
-    desktop_window.object = this // So this class object can be accessed through the desktop_window
-    this.window = desktop_window
-    this.url = data.url
-    this.icon = data.icon
-    
-    this.makeDraggable(windows_container)
-    this.refresh()
-    this.focus(desktop_window)
+    desktop_window.makeDraggable(windows_container)
     
     // Detect those pesky phone screens. Harr!
     if (window.innerHeight * 0.80 > window.innerWidth) {
       desktop_window.classList.add("full")
-      this.makeUndraggable()
+      desktop_window.makeUndraggable()
     }
     
-    function windowControlsHandler() {
-      function handleControls(e) {
-        if (startX == this.style.left && startY == this.style.top) {
-          const target = e.target.id // We only care about the ID!
-          
-          if (target == "window_refresh") this.object.refresh()
-          if (target == "window_close") this.object.hide()
-        }
-        
-        this.removeEventListener("mouseup", handleControls)
-        this.removeEventListener("touchend", handleControls)
-      }
-      
-      this.object.focus() // Always focus
-      
-      let startX = this.style.left
-      let startY = this.style.top
-      
-      this.addEventListener("mouseup", handleControls, { passive: true })
-      this.addEventListener("touchend", handleControls, { passive: true })
-    }
+    windows_container.appendChild(desktop_window)
+    desktop_windows.push(desktop_window)
     
-    desktop_window.addEventListener("mousedown", windowControlsHandler, { passive: true })
-    desktop_window.addEventListener("touchstart", windowControlsHandler, { passive: true })
+    desktop_window.addEventListener("mousedown", desktop_window.focus, { passive: true })
+    desktop_window.addEventListener("touchstart", desktop_window.focus, { passive: true })
+    
+    desktop_window.focus()
+    desktop_window.refresh()
+    
+    return desktop_window
   }
   
   focus() {
@@ -114,44 +91,32 @@ class DesktopWindow {
     desktop_windows.splice(index, 1)
     desktop_windows.push(this)
     
-    this.hidden = false
-    this.window.style.display = ""
+    this.desktop_hidden = false
+    this.style.display = ""
 
     for (let i = 0; i < desktop_windows.length; i++) {
-      const desktop_window = desktop_windows[i].window
-      
-      desktop_window.style.zIndex = i
+      desktop_windows[i].style.zIndex = i
       
       if (i != desktop_windows.length - 1) {
-        desktop_windows[i].focused = false
-        desktop_window.style.filter = "brightness(0.6)"
-        desktop_window.style.transition = "filter 0.4s"
+        desktop_windows[i].style.filter = "brightness(0.6)"
+        desktop_windows[i].style.transition = "filter 0.4s"
         continue
       }
       
-      desktop_windows[i].focused = true
-      desktop_window.style.filter = "brightness(1)"
-      desktop_window.style.transition = ""
+      desktop_windows[i].style.filter = "brightness(1)"
+      desktop_windows[i].style.transition = "none"
     }
   }
   
   refresh() {
-    const refresh_icon = this.window.querySelector("#window_refresh")
-    
-    refresh_icon.style.animation = "refresh-animation 1s ease-out"
-    setTimeout(() => {
-      refresh_icon.style.animation = ""
-    }, 1000)
-    
     fetch(this.url).then(res => res.text().then(res => {
-      this.window.querySelector("app_container").innerHTML = res
+      this.querySelector("app_container").innerHTML = res
     }))
   }
   
   hide() {
-    this.window.style.display = "none"
-    this.focused = false
-    this.hidden = true
+    this.style.display = "none"
+    this.desktop_hidden = true
     
     // Recalculate window focus
     let index = desktop_windows.indexOf(this) - 1
@@ -161,28 +126,27 @@ class DesktopWindow {
     }
     
     const target = desktop_windows.at(index)
-    if (!target.hidden) target.focus()
+    if (!target.desktop_hidden) target.focus()
   }
   
   delete() {
     const index = desktop_windows.indexOf(this)
     
     desktop_windows.splice(index, 1)
-    this.window.parentElement.removeChild(this.window)
-    this.window = null
+    this.parentElement.removeChild(this)
     
     desktop_windows.at(-1).focus() // Recalculate window focus
   }
   
   makeUndraggable() {
-    this.draggable = false
+    this.desktop_draggable = false
   }
   
-  /* HACK HOUSE 2.0 */
+  /* HACK HOUSE 2 */
   makeDraggable(container = this.container) {
     if (!container) throw Error("Argument 'container' must be defined at least once per window.")
     
-    const desktop_window = this.window
+    const desktop_window = this
     const topbar = desktop_window.querySelector("topbar")
 
     let offsetX, offsetY;
@@ -190,7 +154,7 @@ class DesktopWindow {
     function startDrag(e) {
       e.preventDefault()
       
-      if (!this.parentElement.object.draggable) return
+      if (!desktop_window.desktop_draggable) return
 
       if (e.type === "touchstart") {
         // For touch events
@@ -246,7 +210,7 @@ class DesktopWindow {
     topbar.addEventListener("mousedown", startDrag)
     topbar.addEventListener("touchstart", startDrag)
     
-    this.container = container
-    this.draggable = true
+    desktop_window.container = container
+    desktop_window.desktop_draggable = true
   }
 }

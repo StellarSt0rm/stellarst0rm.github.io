@@ -104,26 +104,24 @@
   </boot_text>
   
   <desktop id="desktop" style="opacity: 0">
-    <useless_topbar id="useless_topbar" class="blur-background">
-      <img id="unsupported_alert" src="/res/img/dialog-error.svg">
+    <useless_topbar id="useless_topbar" class="blur-background font-bold">
+      <img id="unsupported_alert" src="/res/img/dialog_error.svg">
       <div id="clock">Aug 14 11:69</div>
       <div style="margin: 0 1.5vh; display: flex; align-items: center">
-        <img src="/res/img/audio-volume-muted.svg" style="height: 2.5vh">
-        <img src="/res/img/battery-060.svg" style="height: 2.5vh; margin-left: 1vh">
+        <img src="/res/img/audio_volume_muted.svg" style="height: 2.5vh">
+        <img src="/res/img/battery_060.svg" style="height: 2.5vh; margin-left: 1vh">
         69%
       </div>
     </useless_topbar>
     
-    <apps_container id="apps_container"></apps_container>
+    <windows_container id="windows_container"></windows_container>
     
-    <apps_launcher id="apps_launcher" class="blur-background">
-      <div></div>
-      <div></div>
-      <div></div>
-    </apps_launcher>
+    <apps_launcher id="apps_launcher" class="blur-background"></apps_launcher>
   </desktop>
   
   <script>
+    (() => { // Startup functions in anonymous function to not make startup functions/variables global
+    
     // Boot animation
     function parseBootMsg(data) {
       const dynamic_values = [
@@ -187,10 +185,6 @@
              
              boot_element.remove()
              
-             // Cleanup
-             delete globalThis.boot_element
-             delete globalThis.boot_text
-             
              // Show Desktop
              desktop.style.opacity = "1"
              desktop.style.animation = "zoom-in 1s"
@@ -209,6 +203,27 @@
     })})
     
     animate(boot_element, boot_text)
+    
+    //---# Date div updater #---\\
+    function update_clock() {
+      const formatted_time = new Date().toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      }).replace(',', '&nbsp;')
+      
+      document.getElementById("clock").innerHTML = formatted_time
+    }
+    
+    update_clock()
+    setTimeout(() => {
+      update_clock()
+      setInterval(update_clock, 60000)
+    }, (60 - new Date().getSeconds()) * 1000)
+    
+    })();
     
     
                                  /*   )
@@ -230,143 +245,5 @@
         |      ~~~~~"   "~~~~~~~~~~~~~~~~~~~ */
   </script>
   
-  <style>
-    #desktop {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: fixed;
-      
-      height: 100dvh;
-      width: 100dvw;
-      
-      background: url("/res/img/wallpaper.avif");
-      background-size: cover;
-      background-position: center;
-    }
-    
-    #useless_topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 1;
-      
-      height: 3vh;
-      width: 100%;
-      
-      font-family: Cantarell;
-      font-weight: bold;
-      
-      cursor: default;
-      user-select: none;
-      font-size: 1.6vh;
-    }
-    
-    #apps_container {
-      position: relative;
-      z-index: 0;
-      
-      height: calc(100% - 10% - 3%);
-      width: 100%;
-      
-      background: #0000ff66;
-      margin-bottom: 0.8vh;
-    }
-    
-    #apps_launcher {
-      display: flex;
-      align-items: center;
-      z-index: 1;
-      
-      height: 8.4vh;
-      
-      border-radius: 2.5vh;
-      padding: 0 1vh;
-    }
-    
-    #apps_launcher > div {
-      height: 6vh;
-      width: 6vh;
-      
-      background: red;
-      margin: 0 0.5vh;
-      border-radius: 2vh;
-      
-      &:hover {
-        background: #56353c;
-      }
-    }
-    
-    /* Desktop Windows */
-    .desktop_window {
-      display: block;
-      position: absolute;
-      
-      height: 50vh;
-      width: 80vh;
-      
-      background: #1f1f1f;
-      border-radius: 1.3vh;
-      overflow: hidden;
-      box-shadow: 0 0 1.1vh 0.5vh #00000066;
-    }
-    
-    .desktop_window topbar {
-      display: block;
-      
-      height: 8%;
-      width: 100%;
-      
-      background: #303030;
-      border-bottom: solid 0.2vh #161616;
-    }
-    
-    .desktop_window.full {
-      left: 0 !important;
-      top: 0 !important;
-      
-      height: 100%;
-      width: 100%;
-      
-      border-radius: 0 0 1.3vh 1.3vh;
-    }
-    
-    .desktop_window.full topbar {
-      height: 4.6%
-    }
-    
-    /* Detect if a browser supports backdrop-filter... *ehem* Safari *ehem* */
-    .blur-background {
-      background: black;
-    }
-    
-    #unsupported_alert {
-      height: 2.5vh;
-      margin: 0 1.5vh;
-      margin-right: calc(1.5vh + 9.5vh);
-    }
-    
-    @supports (backdrop-filter: blur(30px) brightness(0.6)) {
-      .blur-background {
-        backdrop-filter: blur(30px) brightness(0.6);
-        background: none;
-      }
-      
-      #unsupported_alert {
-        visibility: hidden;
-      }
-    }
-    
-    /* Animations */
-    @keyframes zoom-in {
-      from {
-        opacity: 70%;
-        scale: 0.9;
-      }
-      to {
-        opacity: 100%;
-        scale: 1;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="/res/main.css"></link>
 </body>

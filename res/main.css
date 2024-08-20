@@ -1,0 +1,194 @@
+#desktop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+
+  height: 100dvh;
+  width: 100dvw;
+
+  background: url("/res/img/wallpaper.avif");
+  background-size: cover;
+  background-position: center;
+}
+
+#useless_topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1;
+
+  height: 3vh;
+  width: 100%;
+
+  cursor: default;
+}
+
+#windows_container {
+  position: relative;
+  z-index: 0;
+
+  height: calc(100% - 10% - 3%);
+  width: 100%;
+
+  margin-bottom: 0.8vh;
+}
+
+#apps_launcher {
+  display: flex;
+  align-items: center;
+  z-index: 1;
+
+  height: 8.4vh;
+
+  border-radius: 2.5vh;
+  padding: 0 1vh;
+}
+
+#apps_launcher icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  height: 6vh;
+  width: 6vh;
+
+  margin: 0 0.5vh;
+  border-radius: 2vh;
+
+  &:hover {
+    background-color: #56353c;
+  }
+}
+
+/* Desktop Windows */
+.desktop_window {
+  display: block;
+  position: absolute;
+
+  height: 50vh;
+  width: 80vh;
+
+  background: #1f1f1f;
+  border-radius: 1.3vh;
+  overflow: hidden;
+  box-shadow: 0 0 1.1vh 0.5vh #00000066;
+  border: solid 0.2vh #4e4e4e80
+}
+
+.desktop_window topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  height: 4vh;
+  width: 100%;
+
+  background: #303030;
+  border-bottom: solid 0.2vh #161616;
+}
+
+.desktop_window topbar > div {
+  height: 3vh;
+  
+  padding: 0.1vh;
+  margin: 0 1vh;
+  border-radius: 1vh;
+
+  transition: background 0.2s;
+
+  &:hover {
+    background: #4c4c4c
+  }
+}
+
+.desktop_window topbar #window_refresh {
+  height: 3vh;
+  width: 3vh;
+  
+  background: url("/res/img/view_refresh.svg");
+  background-size: cover;
+}
+
+.desktop_window topbar #window_close {
+  height: 3vh;
+
+  background: #454545;
+  margin: 0 1.1vh;
+  border-radius: 9999vh;
+
+  transition: filter 0.2s;
+
+  &:hover {
+    filter: brightness(110%);
+  }
+}
+
+.desktop_window app_container {
+  display: block;
+
+  height: calc(100% - 4vh);
+  width: 100%;
+}
+
+.desktop_window.full {
+  left: 0 !important;
+  top: 0 !important;
+
+  height: 100%;
+  width: 100%;
+
+  border-radius: 0 0 1.3vh 1.3vh;
+}
+
+/* Detect if a browser supports backdrop-filter... *ehem* Safari *ehem* */
+.blur-background {
+  background: black;
+}
+
+#unsupported_alert {
+  height: 2.5vh;
+  margin: 0 1.5vh;
+  margin-right: calc(9.5vh - 2.5vh + 1.5vh);
+}
+
+@supports (backdrop-filter: blur(30px) brightness(0.6)) {
+  .blur-background {
+    backdrop-filter: blur(30px) brightness(0.6);
+    background: none;
+  }
+
+  #unsupported_alert {
+    visibility: hidden;
+  }
+}
+
+.font-bold {
+  font-size: 1.6vh;
+  font-weight: bold;
+  font-family: Cantarell;
+  
+  user-select: none;
+}
+
+/* Animations */
+@keyframes zoom-in {
+  from {
+    opacity: 70%;
+    scale: 0.9;
+  }
+
+  to {
+    opacity: 100%;
+    scale: 1;
+  }
+}
+
+@keyframes refresh-animation {
+  20% {
+    transform: rotate(-80deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -1,12 +1,20 @@
 // Format:
 // "name" - The name of the window
 // "url" - URL to the app .html file
+// "icon" - URL to the app icon
+// "short_name" - Short name to use for the apps_launcher (optional)
 
 // How to parse: JSON.parse(<data>.replaceAll(/\/\/.*\n/g, ""))
 
 [
   {
     "name": "Call center frenzy!",
-    "url": "/static/minigame.html"
+    "url": "/static/minigame.html",
+    "icon": "/res/apps/minigame/phone.avif"
+  },
+  {
+    "name": "404 Test",
+    "url": "/404.html",
+    "icon": "/res/apps/404/broken_modem.avif"
   }
 ]
