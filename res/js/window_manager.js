@@ -64,13 +64,17 @@ class DesktopWindow {
     }
     apps_launcher.appendChild(app_icon)
     
+    if (apps_launcher.childElementCount == 1) {
+      apps_launcher.style.animation = ""
+    }
+    
     windows_container.appendChild(desktop_window)
     desktop_windows.push(this)
     
     desktop_window.object = this // So this class object can be accessed through the desktop_window
     this.window = desktop_window
     this.url = data.url
-    this.icon = data.icon
+    this.icon = app_icon
     
     this.makeDraggable(windows_container)
     this.refresh()
@@ -106,6 +110,15 @@ class DesktopWindow {
     
     desktop_window.addEventListener("mousedown", windowControlsHandler, { passive: true })
     desktop_window.addEventListener("touchstart", windowControlsHandler, { passive: true })
+    
+    /*return new Proxy(this, {
+      get: (target, prop) => {
+        if (!target.window) {
+          throw new Error(`This DesktopWindow instance has been deleted!`);
+        }
+        return target[prop];
+      }
+    });*/
   }
   
   focus() {
@@ -115,7 +128,7 @@ class DesktopWindow {
     desktop_windows.push(this)
     
     this.hidden = false
-    this.window.style.display = ""
+    this.window.style.animation = ""
 
     for (let i = 0; i < desktop_windows.length; i++) {
       const desktop_window = desktop_windows[i].window
@@ -149,7 +162,7 @@ class DesktopWindow {
   }
   
   hide() {
-    this.window.style.display = "none"
+    this.window.style.animation = "0.2s forwards window-hide"
     this.focused = false
     this.hidden = true
     
@@ -165,18 +178,25 @@ class DesktopWindow {
   }
   
   delete() {
-    const index = desktop_windows.indexOf(this)
+    this.hide() // Play hide animation / Handle focus recalulation
+    this.icon.style.animation = "0.2s forwards icon-hide"
     
-    desktop_windows.splice(index, 1)
-    this.window.parentElement.removeChild(this.window)
-    this.window = null
+    if (this.icon.parentElement.childElementCount <= 1) {
+      this.icon.parentElement.style.animation = "0.2s forwards icon-hide"
+    }
     
-    desktop_windows.at(-1).focus() // Recalculate window focus
+    setTimeout(() => {
+      const index = desktop_windows.indexOf(this)
+      
+      this.window.remove()
+      this.icon.remove()
+      
+      desktop_windows.splice(index, 1)
+      this.window = null
+    }, 200)
   }
   
-  makeUndraggable() {
-    this.draggable = false
-  }
+  makeUndraggable() { this.draggable = false }
   
   /* HACK HOUSE 2.0 */
   makeDraggable(container = this.container) {
@@ -212,9 +232,12 @@ class DesktopWindow {
     }
 
     function onMouseMove(e) {
+      e.preventDefault()
       handleMove(e.clientX, e.clientY)
     }
     function onTouchMove(e) {
+      e.preventDefault()
+      
       // Handle the first touch point
       const touch = e.touches[0]
       handleMove(touch.clientX, touch.clientY)
@@ -236,6 +259,8 @@ class DesktopWindow {
       desktop_window.style.top = `${top}px`
     }
     function stopDrag(e) {
+      e.preventDefault()
+      
       document.removeEventListener("mousemove", onMouseMove)
       document.removeEventListener("mouseup", stopDrag)
 

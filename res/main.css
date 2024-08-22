@@ -10,6 +10,7 @@
   background: url("/res/img/wallpaper.avif");
   background-size: cover;
   background-position: center;
+  overflow: hidden;
 }
 
 #useless_topbar {
@@ -190,5 +191,26 @@
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes window-hide {
+  from {
+    z-index: 9999;
+  }
+  to {
+    transform: rotateX(30deg);
+    opacity: 0;
+  }
+}
+
+@keyframes icon-hide {
+  to {
+    transform: scale(0);
+    
+    width: 0;
+    
+    margin: 0;
+    opacity: 0;
   }
 }
