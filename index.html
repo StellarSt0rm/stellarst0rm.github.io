@@ -8,6 +8,7 @@
   <title>StellarSt0rm' Website</title>
   <script src="./res/js/desktop_manager.js"></script>
   <script src="./res/js/window_manager.js"></script>
+  <script src="./res/js/notification_manager.js"></script>
 </head>
 <body style="overflow: hidden; background: black; color: white; margin: 0">
   <boot_text id="boot_text" style="font-family: monospace; display: block; padding: 8px; font-size: 12px; text-wrap: nowrap; overflow: hidden; max-width: 100dvw">Linux version {linux_version}
@@ -113,8 +114,8 @@
         69%
       </div>
       
-      <!-- Notification box -->
-      <div style="position: absolute;background: red;height: 5vh;width: 5vh;margin-left: calc(50vw - 5vh/2);margin-top: 9vh;transform: translateY(-9vh);"></div>
+      <!-- Notification box ; PHONE - margin: 4vh 2vw; left: 0; width: 96vw-->
+      <notification id="notification"></notification>
     </useless_topbar>
     
     <windows_container id="windows_container"></windows_container>
@@ -191,9 +192,9 @@
              // Show Desktop
              desktop.style.opacity = "1"
              desktop.style.animation = "zoom-in 1s"
-           }, 1000)
+           }, 1000 * magic_number)
          }
-        }, /*i * 30*/)
+        }, (i * 30) * magic_number)
       })
     }
     
@@ -204,7 +205,12 @@
       apps_data = JSON.parse(apps_data.replaceAll(/\/\/.*\n/g, ""))
       main(apps_data)
     })})
-    
+
+
+    // Disable boot animation delay on '?dev' param
+    magic_number = 1
+    if (location.search == "?dev") magic_number = 0
+   
     animate(boot_element, boot_text)
     
     //---# Date div updater #---\\

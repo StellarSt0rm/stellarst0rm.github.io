@@ -30,12 +30,12 @@ window.addEventListener("resize", () => {
 })
 
 class DesktopWindow {
-  constructor(data, id = "") {
-    if (!data) throw Error("Argument 'data' must be defined!")
+  constructor(data) {
+    if (!data) throw TypeError("Argument 'data' must be defined!")
     
-    if (!data.name) throw Error("Argument 'data' must have 'name' attribute!")
-    if (!data.url) throw Error("Argument 'data' must have 'url' attribute!")
-    if (!data.icon) throw Error("Argument 'data' must have 'icon' attribute!")
+    if (!data.name) throw TypeError("Argument 'data' must have 'name' attribute!")
+    if (!data.url) throw TypeError("Argument 'data' must have 'url' attribute!")
+    if (!data.icon) throw TypeError("Argument 'data' must have 'icon' attribute!")
     // There's an optional 'short_name' attribute that will be used instead of 'name' for the apps_launcher
     
     const desktop_window = document.createElement("desktop_window")
@@ -53,7 +53,6 @@ class DesktopWindow {
       <app_container></app_container>
     `
     
-    if (id) desktop_window.id = id
     desktop_window.className = "desktop_window"
     desktop_window.innerHTML = window_template
     
@@ -110,6 +109,13 @@ class DesktopWindow {
     
     desktop_window.addEventListener("mousedown", windowControlsHandler, { passive: true })
     desktop_window.addEventListener("touchstart", windowControlsHandler, { passive: true })
+    
+    // Center new windows
+    //desktop_window.style.left = `${(windows_container.clientWidth / 2) - (window.innerHeight * 0.80 / 2) + ((desktop_windows.length - 1) * 30)}px`
+    //desktop_window.style.top = `${(windows_container.clientHeight / 2) - (window.innerHeight * 0.50 / 2) + ((desktop_windows.length - 1) * 30)}px`
+    
+    desktop_window.style.left = `${(desktop_windows.length - 1) * 39}px`
+    desktop_window.style.top = `${(desktop_windows.length - 1) * 39}px`
     
     /*return new Proxy(this, {
       get: (target, prop) => {

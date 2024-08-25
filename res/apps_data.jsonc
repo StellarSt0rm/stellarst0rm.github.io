@@ -2,17 +2,23 @@
 // "name" - The name of the window
 // "url" - URL to the app .html file
 // "icon" - URL to the app icon
-// "short_name" - Short name to use for the apps_launcher (optional)
+// "short_name" - Short name to use for the apps_launcher [optional]
 
 // DesktopNotification Format:
 // "app" - The name the notifcation "belongs" to
 // "text" - The text contents of the notification
 // "image" - URL to the notification image
+// "time" - Override default notification time (in seconds), '0' for never [optional]
 
 // How to parse: JSON.parse(<data>.replaceAll(/\/\/.*\n/g, ""))
 
 {
   "apps": [
+    {
+      "name": "Portfolio",
+      "url": "/static/portfolio.html",
+      "icon": "/res/apps/portfolio/"
+    },
     {
       "name": "Call center frenzy!",
       "url": "/static/minigame.html",
@@ -26,14 +32,19 @@
   ],
   "notifications": [
     {
-      "app": "notclippy.exe",
-      "text": "<h1>Did you know?</h1>\nI am currently very close to you.\nBehind you, in fact. Hello (:",
-      "image": "/res/img/clippy.avif"
+      "app": "notclippy.service",
+      "text": "Did you know?\nI am currently very close to you.\nBehind you, in fact. Hello (:",
+      "image": "/res/img/clippy.svg"
     },
     {
-      "app": "notclippy.exe",
-      "text": "<h1>Did you know?</h1>\nYou can accept this cookie popup to allow me to take your soul!",
-      "image": "/res/img/clippy.avif"
+      "app": "notclippy.service",
+      "text": "Did you know?\nYou can accept this cookie popup to allow me to take your soul!",
+      "image": "/res/img/clippy.svg"
+    },
+    {
+      "app": "notclippy.service",
+      "text": "Did you know?\nYour mom was a butcher?... Hah! You thought i was gonna say \\i«BITCH»\\i, didnt you? HAHA- \\f[Unintelligible]\\f",
+      "image": "/res/img/clippy.svg"
     }
   ]
 }
