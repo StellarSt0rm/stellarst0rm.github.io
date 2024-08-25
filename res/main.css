@@ -111,7 +111,7 @@
   background-size: cover;
 }
 
-.desktop_window topbar #window_close {
+.desktop_window topbar #window_close, notification #notification_close {
   height: 3vh;
 
   background: #454545;
@@ -140,6 +140,44 @@
   width: 100%;
 
   border-radius: 0 0 1.3vh 1.3vh;
+}
+
+/* Notifications */
+notification {
+  position: absolute;
+  
+  height: 10.5vh;
+  width: 52vh;
+  
+  left: calc(50vw - 52vh/2);
+  top: -12vh;
+  
+  background: #474747;
+  box-shadow: 0 0 1.1vh 0.5vh #00000066;
+  border-radius: 2vh;
+  overflow: hidden;
+  
+  font-size: 1.4vh;
+  
+  &:hover {
+    background: #515151;
+  }
+}
+
+notification #notification_close {
+  float: right;
+  
+  background: #595959;
+  margin: 1.1vh;
+  
+  &:hover {
+    filter: brightness(120%) !important;
+  }
+}
+
+notification.full {
+  width: 96vw;
+  left: calc(50vw - 96vw/2);
 }
 
 /* Detect if a browser supports backdrop-filter... *ehem* Safari *ehem* */
@@ -198,8 +236,12 @@
   from {
     z-index: 9999;
   }
-  to {
+  99% {
     transform: rotateX(30deg);
+    opacity: 0;
+  }
+  to {
+    transform: rotateX(90deg);
     opacity: 0;
   }
 }
@@ -211,6 +253,27 @@
     width: 0;
     
     margin: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes notification-show {
+  from {
+    opacity: 0;
+  }
+  to {
+    top: 4vh;
+    opacity: 1;
+  }
+}
+
+/* I have to make two animations, because it wont apply them correctly otherwise */
+@keyframes notification-hide {
+  from {
+    opacity: 1;
+    top: 4vh;
+  }
+  to {
     opacity: 0;
   }
 }
