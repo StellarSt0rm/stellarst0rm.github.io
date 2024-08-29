@@ -161,8 +161,11 @@ class DesktopWindow {
     const refresh_icon = this.window.querySelector("#window_refresh")
     
     refresh_icon.style.animation = "refresh-animation 1s ease-out"
+    this.window.children[1].style.animation = "fade-in 1s ease-out"
+    
     setTimeout(() => {
       refresh_icon.style.animation = ""
+      this.window.children[1].style.animation = ""
     }, 1000)
     
     this.window.children[1].contentWindow.location.reload(true) // Reload iframe

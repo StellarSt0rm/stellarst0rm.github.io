@@ -227,6 +227,18 @@ notification.full {
   }
 }
 
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 @keyframes refresh-animation {
   20% {
     transform: rotate(-80deg);
