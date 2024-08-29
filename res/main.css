@@ -104,6 +104,8 @@
 }
 
 .desktop_window topbar #window_refresh {
+  will-change: transform;
+  
   height: 3vh;
   width: 3vh;
   
@@ -125,11 +127,13 @@
   }
 }
 
-.desktop_window app_container {
+.desktop_window #app_container {
   display: block;
 
   height: calc(100% - 4vh);
   width: 100%;
+  
+  border: none;
 }
 
 .desktop_window.full {

@@ -1,28 +1,71 @@
 <!DOCTYPE html>
-<title>STATIC - 'Call center frenzy!' Minigame</title>
+<html lang="en">
 
-<minigame_container>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+  
+  <title>STATIC - 'Call center frenzy!' Minigame</title>
+</head>
+<body>
   <p>Oh no! You wanted to cancel your «Questionable» subscription...<br>But the website told you to call <span style="color: red; font-weight: bold">CUSTOMER SUPPORT</span>!</p>
   
   <phone_container>
     <div id="minigame_phone" alt="Le Phone!"></div>
     
     <div id="minigame_box">
-      <i>Sorry, Customer Support representatives are only available on Mondays, Tuesdays and Fridays. Please call another time!</i>
+      <i></i>
     </div>
   </phone_container>
-</minigame_container>
+</body>
+
+<script>
+  // You cant actually win this lol
+  (() => {
+    const excuses = [ // Yes, i used ChatGippity for this. Sue me (Dont actually)
+      "Mondays, Wednesdays, and alternate Fridays during lunar eclipses.",
+      "The first Tuesday of every month, but only if it's raining in Paris.",
+      "Every other Thursday, except on leap years.",
+      "The 29th of February, but only if it's a full moon.",
+      "Odd-numbered Wednesdays, but only after 2 PM.",
+      "The second Sunday after the first Saturday of the month, if the previous Wednesday was an even date.",
+      "Alternating Tuesdays, except when they fall on a prime number date.",
+      "The third Friday of every month, but only during Mercury retrograde.",
+      "Every other Monday, but only if the wind speed is less than 10 mph.",
+      "Even-numbered days that are also divisible by 3, but not on weekends.",
+      "The first Thursday after a new moon, unless it’s during a leap year.",
+      "The 5th of every month, but only if it's a palindrome date.",
+      "Every 4th Tuesday, but only when it’s exactly 72 degrees Fahrenheit outside.",
+      "Alternating Fridays, but only in months that start with the letter M.",
+      "The last Monday of the month, but only if the previous Friday was the 13th.",
+      "Every Tuesday, but only during daylight savings time.",
+      "The first Wednesday after a blue moon, but not in even-numbered years.",
+      "Every other Saturday, unless it’s a public holiday in Kazakhstan.",
+      "Every 13th of the month, but only if it's not a Friday.",
+      "The 2nd Thursday of the month, but only if there was a double rainbow the day before."
+    ]
+
+    let excuse = excuses[Math.floor(Math.random() * excuses.length)]
+    const text = document.getElementById("minigame_box").children[0]
+    
+    excuse = `Sorry, Customer Support representatives are only available on “${excuse}”£Please call another time!`.split("")
+    
+    excuse.forEach((char, i) => {
+      setTimeout(() => { text.innerHTML += char.replace("£", "<br>") }, i * 20)
+    })
+  })();
+</script>
 
 <style>
-  body { margin: 0; }
-  
-  minigame_container {
+  body {
+    margin: 0;
+    
     display: flex;
     flex-direction: column;
     align-items: center;
     
     color: white;
-    font-size: 2vh;
+    font-size: 2.8vw;
     text-align: center;
     
     height: 100dvh;
@@ -31,50 +74,50 @@
     font-family: Cantarell;
   }
   
-  minigame_container phone_container {
+  phone_container {
     display: flex;
     justify-content: center;
     margin-top: 5vh;
-    transform: translateX(-4vh);
+    transform: translateX(-4vw);
   }
   
-  minigame_container #minigame_phone {
-    height: 15vh;
-    width: 15vh;
+  #minigame_phone {
+    height: 20vw;
+    width: 20vw;
     
-    box-shadow: 0 0 3px 3px inset #1f1f1f;
-    transform: translateY(12vh) translateX(8vh);
+    box-shadow: 0 0 1vw 1vw inset #1f1f1f;
+    transform: translateY(12vw) translateX(8vw);
 
     background: url(/res/apps/minigame/phone.avif);
     background-size: cover;
   }
   
-  minigame_container #minigame_box {
+  #minigame_box {
     display: flex;
     justify-content: center;
     align-items: center;
     position: sticky;
     
-    height: 17vh;
-    width: 35vh;
+    height: 25vw;
+    width: 53vw;
     
     background: url(/res/apps/minigame/speech_bubble.svg);
     background-size: cover;
   }
   
-  minigame_container #minigame_box i {
-    height: 62%;
-    width: 75%;
+  #minigame_box i {
+    height: 65%;
+    width: 65%;
     
     color: white;
     margin-left: 5%;
-    margin-bottom: 6%;
+    margin-bottom: 5%;
     
     text-align: center;
-    text-wrap: balance;
-    font-size: 1.65vh;
+    font-size: 2vw;
     
     overflow: scroll;
     scrollbar-color: white transparent;
+    padding: 1vw;
   }
 </style>

@@ -50,7 +50,7 @@ class DesktopWindow {
         <p>${data.name}</p>
         <img id="window_close" src="/res/img/window_close.svg">
       </topbar>
-      <app_container></app_container>
+      <iframe id="app_container" src="${data.url}"></iframe>
     `
     
     desktop_window.className = "desktop_window"
@@ -76,7 +76,6 @@ class DesktopWindow {
     this.icon = app_icon
     
     this.makeDraggable(windows_container)
-    this.refresh()
     this.focus(desktop_window)
     
     // Detect those pesky phone screens. Harr!
@@ -128,6 +127,7 @@ class DesktopWindow {
   }
   
   focus() {
+    if (this.focused) return
     const index = desktop_windows.indexOf(this)
     
     desktop_windows.splice(index, 1)
@@ -140,6 +140,7 @@ class DesktopWindow {
       const desktop_window = desktop_windows[i].window
       
       desktop_window.style.zIndex = i
+      desktop_window.children[1].style.pointerEvents = "none"
       
       if (i != desktop_windows.length - 1) {
         desktop_windows[i].focused = false
@@ -151,6 +152,8 @@ class DesktopWindow {
       desktop_windows[i].focused = true
       desktop_window.style.filter = "brightness(1)"
       desktop_window.style.transition = ""
+      
+      desktop_window.children[1].style.pointerEvents = ""
     }
   }
   
@@ -162,9 +165,7 @@ class DesktopWindow {
       refresh_icon.style.animation = ""
     }, 1000)
     
-    fetch(this.url).then(res => res.text().then(res => {
-      this.window.querySelector("app_container").innerHTML = res
-    }))
+    this.window.children[1].contentWindow.location.reload(true) // Reload iframe
   }
   
   hide() {
@@ -243,22 +244,38 @@ class DesktopWindow {
     }
     function onTouchMove(e) {
       e.preventDefault()
-      
-      // Handle the first touch point
       const touch = e.touches[0]
       handleMove(touch.clientX, touch.clientY)
     }
 
     function handleMove(clientX, clientY) {
+      // Disable pointer events on the iframe
+      desktop_window.children[1].style.pointerEvents = "none"
+      
       const containerRect = container.getBoundingClientRect()
       const windowRect = desktop_window.getBoundingClientRect()
 
       let left = clientX - offsetX - containerRect.left
       let top = clientY - offsetY - containerRect.top
-
+      
+      // Window position limits calulations
+      let windowLimits = windowRect.width / 3
+      const windowLimitsMargin = 30
+      
+      // Check if window is inside container
+      if (parseInt(desktop_window.style.left) + windowRect.width <= containerRect.width && parseInt(desktop_window.style.left) >= 0) {
+        windowLimits = windowRect.width
+        
+        // Check if un-clamped position is greater than the margins, if it is then unlock window position (to 1/3)
+        if ((left + windowRect.width - windowLimitsMargin) >= containerRect.width || (left + windowLimitsMargin) <= 0) {
+          windowLimits = windowRect.width / 3
+        }
+      }
+      // --
+      
       // Constrain the window within the desktop, allowing overflow on the left and right,
       // While preventing overflow on the top and bottom.
-      left = Math.max(-windowRect.width + windowRect.width / 3, Math.min(left, containerRect.width - windowRect.width / 3))
+      left = Math.max(-windowRect.width + windowLimits, Math.min(left, containerRect.width - windowLimits))
       top = Math.max(0, Math.min(top, containerRect.height - windowRect.height))
 
       desktop_window.style.left = `${left}px`
@@ -272,6 +289,8 @@ class DesktopWindow {
 
       document.removeEventListener("touchmove", onTouchMove)
       document.removeEventListener("touchend", stopDrag)
+      
+      desktop_window.children[1].style.pointerEvents = ""
     }
     
     topbar.addEventListener("mousedown", startDrag)
