@@ -2,10 +2,8 @@ name: Build and Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
     paths: [src/**, html/**]
   pull_request:
-    branches: [main]
     paths: [src/**, html/**]
 
 # Config
