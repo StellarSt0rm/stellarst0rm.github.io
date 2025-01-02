@@ -32,7 +32,7 @@ if [ ! -d ./html ]; then
     exit 1
 fi
 
-# Build WASM binary 🏗
+# Build Wasm binary 🏗
 rm -rf ./public && mkdir ./public
 $WASM_PACK build $PROFILE --target web
 
