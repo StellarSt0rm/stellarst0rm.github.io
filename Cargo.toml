@@ -1,0 +1,15 @@
+[package]
+name = "stellarst0rm_github_io"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+console_error_panic_hook = "0.1.7"
+wasm-bindgen = "0.2.99"
+
+[dependencies.web-sys]
+version = "0.3.76"
+features = ["Window", "Document", "Element"]
