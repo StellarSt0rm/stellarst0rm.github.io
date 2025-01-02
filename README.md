@@ -5,9 +5,9 @@ Remake of my website, using Rust!
 **Why?**
 Because i feel like it, and it's better than JavaScript. (Anything is better than JavaScript)
 <br>**How?**
-WASM!
+With Wasm!
 <br>**When?**
-Today. January 2nd, 2025.
+Today.
 <br>**Where?**
 Here?
 
