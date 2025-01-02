@@ -2,9 +2,9 @@ name: Build and Daploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [release]
   pull_request:
-    branches: [main]
+    branches: [release]
 
 # Config
 env:
