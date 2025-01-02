@@ -9,9 +9,12 @@ fn start() -> Result<(), JsValue> {
 
     // App
     let document = web_sys::window().unwrap().document().unwrap();
+    let body = document.body().unwrap();
 
-    let lang_span = document.get_element_by_id("lang").unwrap();
-    lang_span.set_text_content(Some("Rust! Amazing! 🚀"));
+    let loading_div = document
+        .get_element_by_id("loading")
+        .expect("Couldnt find 'loading' div");
+    loading_div.remove();
 
     Ok(())
 }

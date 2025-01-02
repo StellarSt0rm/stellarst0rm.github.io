@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
+        <link rel="stylesheet" href="css/main.css" />
 
         <script type="module" defer>
             import init from "/pkg/stellarst0rm_github_io.js";
@@ -10,6 +11,13 @@
     </head>
 
     <body>
-        <h1>Hello from <span id="lang"></span></h1>
+        <div id="loading">
+            <h1>Loading WASM binary...</h1>
+            <div class="loader"></div>
+        </div>
+
+        <div id="content">
+            <h1>Loaded.</h1>
+        </div>
     </body>
 </html>
