@@ -3,9 +3,15 @@
 # Check environment 🤠
 if [ "$BUILD_ENV" = "PROD" ]; then
     PROFILE="--release"
+    EXTRA_MSG=""
 else
     PROFILE="--dev"
+    EXTRA_MSG="To run as PROD, use 'BUILD_ENV=\"PROD\" sh build.sh'\n"
 fi
+
+echo "Building '$PROFILE' profile."
+echo $EXTRA_MSG -n
+echo "---"
 
 # Check for necessary binaries 🕵
 WASM_PACK=$(which wasm-pack)
@@ -42,5 +48,7 @@ cp -a ./html/. ./public
 # Run app locally (If needed) 🚀
 if [ "$1" = "run" ]; then
     cd ./public
+
+    echo "---"
     $PYTHON -m http.server
 fi
