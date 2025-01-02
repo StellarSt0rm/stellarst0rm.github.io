@@ -1,5 +1,12 @@
 #!/bin/env sh
 
+# Check environment 🤠
+if [ "$BUILD_ENV" = "PROD" ]; then
+    PROFILE="--release"
+else
+    PROFILE="--dev"
+fi
+
 # Check for necessary binaries 🕵
 WASM_PACK=$(which wasm-pack)
 if [ -z "$WASM_PACK" ]; then
@@ -21,7 +28,7 @@ fi
 
 # Build WASM binary 🏗
 rm -rf ./public && mkdir ./public
-$WASM_PACK build --target web
+$WASM_PACK build $PROFILE --target web
 
 # Prepare app 👩‍🍳
 if [ ! -d ./pkg ]; then
