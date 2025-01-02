@@ -3,10 +3,10 @@ name: Build and Daploy to GitHub Pages
 on:
   push:
     branches: [main]
-    paths: [src/, html/]
+    paths: [src/**, html/**]
   pull_request:
     branches: [main]
-    paths: [src/, html/]
+    paths: [src/**, html/**]
 
 # Config
 env:
