@@ -13,3 +13,14 @@ Today. January 2nd, 2025.
 
 **Where?**
 Here?
+
+## How to run locally (Why tho?)
+Clone the repo and run the build script with the `run` flag!
+
+Like this: `sh build.sh run`
+
+<br><br>
+### You must have:
+- rustup (Duh)
+- wasm-pack (`cargo install wasm-pack`)
+- python3 (To run the website)
