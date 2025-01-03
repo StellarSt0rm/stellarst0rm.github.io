@@ -14,14 +14,3 @@ With Wasm!
 Today.
 <br>**Where?**
 Here?
-
-## How to run locally (Why tho?)
-Clone the repo and run the build script with the `run` flag!
-<br>Like this: `sh build.sh run`
-
-(This will build the DEV version, to build the PROD version use: `BUILD_ENV="PROD" sh build.sh run`)
-
-### You must have:
-- rustup (Duh)
-- wasm-pack (`cargo install wasm-pack`)
-- python3 (To run the website)
