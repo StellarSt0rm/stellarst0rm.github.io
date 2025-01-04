@@ -1,9 +1,10 @@
-use wasm_bindgen::JsCast;
-use web_sys::{Document, Element, HtmlElement};
+use crate::templates;
+use web_sys::{Document, Element};
 
 pub struct Desktop {
     container: Element,
     document: Document,
+
     window_pool: Vec<Window>,
 }
 
@@ -11,8 +12,11 @@ pub struct Desktop {
 pub struct Window {
     pub layer: usize,
     pub id: usize,
+
     pub name: String,
     pub content: String,
+
+    pub xy: (i32, i32),
 }
 
 impl Desktop {
@@ -23,6 +27,7 @@ impl Desktop {
         Desktop {
             container,
             document,
+
             window_pool: Vec::new(),
         }
     }
@@ -32,16 +37,22 @@ impl Desktop {
         let window = Window {
             layer: 0, // Layer set to 0 for new windows.
             id: self.window_pool.len() + 1,
+
             name,
             content,
+
+            xy: (0, 0),
         };
 
-        let text: HtmlElement = self.document.create_element("p").unwrap().unchecked_into();
-        text.set_text_content(Some(&window.name));
-        text.set_id(&window.id.to_string());
-        text.style().set_property("z-index", "0").unwrap();
+        // Create window in DOM
+        let window_element = self.document.create_element("div").unwrap();
+        let html = templates::window(&window.name, &window.content);
 
-        self.container.append_child(&text).unwrap();
+        window_element.set_id(&window.id.to_string());
+        window_element.set_class_name("window");
+        window_element.set_inner_html(&html);
+
+        self.container.append_child(&window_element).unwrap();
 
         self.window_pool.push(window);
         self.window_pool.last().unwrap()

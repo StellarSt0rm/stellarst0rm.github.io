@@ -1,0 +1,2 @@
+<div class="topbar">{{ name }}</div>
+<div class="content">{{ content }}</div>

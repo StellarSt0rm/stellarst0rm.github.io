@@ -1,22 +1,10 @@
 mod desktop;
+mod templates;
 
 use console_error_panic_hook;
 use desktop::Desktop;
 use wasm_bindgen::prelude::*;
 use web_sys;
-
-// Logging
-#[wasm_bindgen]
-extern "C" {
-    #[wasm_bindgen(js_namespace = console)]
-    fn log(s: &str);
-}
-
-#[allow(unused_macros)]
-macro_rules! console_log {
-    ($($t:tt)*) => (log(&format_args!($($t)*).to_string()))
-}
-// ---
 
 #[wasm_bindgen(start)]
 fn start() -> Result<(), JsValue> {
