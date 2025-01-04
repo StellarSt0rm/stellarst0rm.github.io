@@ -12,6 +12,7 @@ extern "C" {
     fn log(s: &str);
 }
 
+#[allow(unused_macros)]
 macro_rules! console_log {
     ($($t:tt)*) => (log(&format_args!($($t)*).to_string()))
 }
@@ -22,15 +23,8 @@ fn start() -> Result<(), JsValue> {
     // Better error logging!
     console_error_panic_hook::set_once();
 
-    // Clear stuff
+    // Load app
     let document = web_sys::window().unwrap().document().unwrap();
-
-    let loading_div = document
-        .get_element_by_id("loading")
-        .expect("Couldnt find 'loading' div");
-    loading_div.remove();
-
-    // Load windows!
     let window_container = document.get_element_by_id("window_container").unwrap();
     let data = include_str!("data/windows.toml")
         .parse::<toml::Table>()
@@ -46,6 +40,12 @@ fn start() -> Result<(), JsValue> {
 
         desktop.new_window(name, content, icon_url);
     }
+
+    // Show app
+    let loading_div = document
+        .get_element_by_id("loading")
+        .expect("Couldnt find 'loading' div");
+    loading_div.remove();
 
     Ok(())
 }
