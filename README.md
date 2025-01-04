@@ -3,6 +3,8 @@ Remake of my website, using Rust!
 
 ## TODO
 - [ ] Remake old website's functionality
+  - [ ] Implement windows
+  - [ ] \(Optional) Implement notifications
 - [ ] Change style? (A more unique style, as opposed to the old GNOME-like style)
 
 ## NAQ (Never Asked Questions):
