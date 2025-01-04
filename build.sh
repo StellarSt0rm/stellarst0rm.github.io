@@ -10,7 +10,7 @@ else
 fi
 
 echo "Building '$PROFILE' profile."
-echo $EXTRA_MSG -n
+echo -n "$EXTRA_MSG"
 echo "---"
 
 # Check for necessary binaries 🕵
