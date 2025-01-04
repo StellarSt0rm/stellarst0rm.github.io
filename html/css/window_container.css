@@ -1,0 +1,26 @@
+#window_container {
+    flex-grow: 1;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Windows */
+.window {
+    resize: both;
+    overflow: hidden;
+
+    height: 10rem;
+    width: 10rem;
+
+    min-height: max-content;
+    min-width: max-content;
+
+    background: red;
+}
+
+.topbar {
+    height: 1rem;
+    width: 100%;
+
+    background: blue;
+}

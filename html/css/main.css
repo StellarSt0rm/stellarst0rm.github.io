@@ -1,16 +1,28 @@
 @import "./loader.css";
+@import "./window_container.css";
+@import "./bottom.css";
 
+/* Main */
 body {
     height: 100vh;
     width: 100vw;
-
-    margin: 0;
     overflow: hidden;
+    margin: 0;
 
-    background: black;
     color: white;
+    background: conic-gradient(
+        from 230.29deg at 51.63% 52.16%,
+        rgb(0, 0, 5) 0deg,
+        rgb(40, 9, 52) 67.5deg,
+        rgb(10, 14, 31) 198.75deg,
+        rgb(255, 78, 51) 251.25deg,
+        rgb(207, 122, 250) 301.88deg,
+        rgb(46, 0, 46) 360deg
+    );
+    backdrop-filter: blur(30px);
 }
 
+/* General */
 #loading,
 #content {
     height: 100%;
@@ -18,7 +30,6 @@ body {
 
     display: flex;
     flex-direction: column;
-
     justify-content: center;
     align-items: center;
 

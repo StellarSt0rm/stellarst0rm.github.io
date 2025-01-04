@@ -11,15 +11,35 @@
     </head>
 
     <body>
+        <script>
+            let FF_FOUC_FIX;
+        </script>
+
         <div id="loading">
             <h1>Loading Wasm pkg...</h1>
             <div class="loader"></div>
         </div>
 
         <div id="content">
-            <div id="top_bar"></div>
             <div id="window_container"></div>
-            <div id="launch_bar"></div>
+
+            <!--
+                App Launcher: Stores icons for apps, to select/re-open them.
+                Status Bar: System clock, etc.
+
+                Left and Right elements are used to visually
+                connect App Launcher with the Status Bar.
+
+                App icons are stored in the Center element.
+            -->
+            <div id="bottom">
+                <div id="app_launcher">
+                    <left></left>
+                    <center id="center"></center>
+                    <right></right>
+                </div>
+                <div id="status_bar"></div>
+            </div>
         </div>
     </body>
 </html>
