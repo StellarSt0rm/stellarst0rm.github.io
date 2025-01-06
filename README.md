@@ -8,7 +8,7 @@ Remake of my website, using Rust!
   - [ ] Add bottom icons
   - [ ] Add resizing functionality? (Maybe)
   - [ ] Implement notifications (Optional)
-- [ ] Change style
+- [ ] Change style (Old style was GNOME-like)
   - [X] Bottom bar
   - [ ] Bottom bar icons
   - [ ] Windows
