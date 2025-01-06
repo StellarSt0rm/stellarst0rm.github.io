@@ -5,9 +5,15 @@ Remake of my website, using Rust!
 - [ ] Remake old website's functionality
   - [ ] Implement windows
   - [ ] Add dragging functionality
+  - [ ] Add bottom icons
   - [ ] Add resizing functionality? (Maybe)
   - [ ] Implement notifications (Optional)
-- [ ] Change style? (A more unique style, as opposed to the old GNOME-like style)
+- [ ] Change style
+  - [X] Bottom bar
+  - [ ] Bottom bar icons
+  - [ ] Windows
+  - [ ] Window headers
+  - [ ] Window decorations
 
 ## NAQ (Never Asked Questions):
 **Why?** Because i feel like it, and it's better than JavaScript. (Anything is better than JavaScript) \
