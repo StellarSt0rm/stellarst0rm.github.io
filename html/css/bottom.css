@@ -48,8 +48,25 @@
 
 /* Status Bar */
 #status_bar {
+    display: flex;
+    justify-content: space-between;
+
     height: 2.5rem;
     width: 100%;
 
     background: var(--bottom_bar_color);
+}
+
+#status_bar left,
+#status_bar center,
+#status_bar right {
+    display: flex;
+    align-items: center;
+
+    width: 20rem;
+    padding: 0.5rem;
+
+    p {
+        margin: 0;
+    }
 }

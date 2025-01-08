@@ -29,6 +29,9 @@ fn start() -> Result<(), JsValue> {
         desktop.new_window(name, content, icon_url);
     }
 
+    let version_span = document.get_element_by_id("version").unwrap();
+    version_span.set_text_content(Some(env!("CARGO_PKG_VERSION")));
+
     // Show app
     let loading_div = document
         .get_element_by_id("loading")

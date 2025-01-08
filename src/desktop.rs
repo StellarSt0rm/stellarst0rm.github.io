@@ -1,3 +1,5 @@
+mod drag;
+
 use crate::templates;
 use web_sys::{Document, Element};
 
@@ -52,6 +54,7 @@ impl Desktop {
         window_element.set_class_name("window");
         window_element.set_inner_html(&html);
 
+        drag::make_draggable(&window_element);
         self.container.append_child(&window_element).unwrap();
 
         self.window_pool.push(window);

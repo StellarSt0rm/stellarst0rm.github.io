@@ -1,6 +1,6 @@
 [package]
 name = "stellarst0rm_github_io"
-version = "0.1.0"
+version = "0.3.0"
 
 description = "My website!"
 repository = "https://github.com/StellarSt0rm/stellarst0rm.github.io"
@@ -21,7 +21,10 @@ version = "0.3.76"
 features = [
     "Window",
     "Document",
+
     "HtmlElement",
     "CssStyleDeclaration",
+
+    "MouseEvent",
     "console",
 ]
