@@ -1,5 +1,5 @@
 mod desktop;
-mod templates;
+od templates;
 
 use console_error_panic_hook;
 use desktop::Desktop;
