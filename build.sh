@@ -39,7 +39,9 @@ if [ ! -d ./html ]; then
 fi
 
 # Run tests 🧪
-$CARGO test $PROFILE || exit 1
+# This is just to automate tests when uploading to gh-pages,
+# you can still test directly for specific tests.
+$CARGO test || exit 1
 
 # Build Wasm binary 🏗
 rm -rf ./public && mkdir ./public
