@@ -31,7 +31,7 @@ if [ "$1" = "run" ] && [ -z "$PYTHON" ]; then
 fi
 
 # Build Wasm pkg
-$WASM_PACK build $PROFILE --target web|| exit 1
+$WASM_PACK build $PROFILE --target web || exit 1
 
 # Prepare app
 if [ ! -d ./html ]; then
