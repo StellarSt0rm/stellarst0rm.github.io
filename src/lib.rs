@@ -19,8 +19,8 @@ fn start() -> Result<(), JsValue> {
         .unwrap();
     let mut desktop = Desktop::new(window_container);
 
-    for id_ in data.keys() {
-        let window = data[id_].clone();
+    for id in data.keys() {
+        let window = data[id].clone();
 
         let name = window["name"].as_str().unwrap().to_string();
         let content = window["content"].as_str().unwrap().to_string();
