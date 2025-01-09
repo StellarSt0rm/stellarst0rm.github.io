@@ -38,7 +38,9 @@ jobs:
 
       # Test & Build
       - name: Setup wasm-pack
-        run: cargo install wasm-pack
+        uses: taiki-e/cache-cargo-install-action@v2
+        with:
+          tool: wasm-pack
 
       - name: Run tests
         run: cargo test --release
