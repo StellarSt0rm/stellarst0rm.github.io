@@ -20,6 +20,12 @@ if [ -z "$WASM_PACK" ]; then
     exit 1
 fi
 
+CARGO=$(which cargo)
+if [ -z "$CARGO" ]; then
+    echo "'cargo' binary not found in PATH."
+    exit 1
+fi
+
 PYTHON=$(which python3 || which python)
 if [ "$1" = "run" ] && [ -z "$PYTHON" ]; then
     echo "'python3' or 'python' binary not found in PATH."
@@ -32,9 +38,12 @@ if [ ! -d ./html ]; then
     exit 1
 fi
 
+# Run tests 🧪
+$CARGO test $PROFILE || exit 1
+
 # Build Wasm binary 🏗
 rm -rf ./public && mkdir ./public
-$WASM_PACK build $PROFILE --target web
+$WASM_PACK build $PROFILE --target web || exit 1
 
 # Prepare app 👩‍🍳
 if [ ! -d ./pkg ]; then
