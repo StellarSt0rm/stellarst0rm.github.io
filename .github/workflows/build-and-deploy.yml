@@ -36,9 +36,12 @@ jobs:
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
 
-      # Build
+      # Test & Build
       - name: Setup wasm-pack
         run: cargo install wasm-pack
+
+      - name: Run tests
+        run: cargo test --release
 
       - name: Run build script
         run: BUILD_ENV="PROD" sh ./build.sh
