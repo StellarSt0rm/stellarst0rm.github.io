@@ -6,7 +6,6 @@
 
 /* Windows */
 .window {
-    resize: both;
     overflow: hidden;
 
     height: 10rem;
