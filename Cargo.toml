@@ -23,6 +23,7 @@ features = [
     "Document",
 
     "HtmlElement",
+    "HtmlCollection",
     "CssStyleDeclaration",
 
     "MouseEvent",
