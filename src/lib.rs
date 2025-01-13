@@ -11,7 +11,9 @@ fn start() -> Result<(), JsValue> {
 
     // Load app
     let document = web_sys::window().unwrap().document().unwrap();
-    let container = document.get_element_by_id("window_container").unwrap();
+    let container = document
+        .get_element_by_id("window_container")
+        .expect("[start] Document should have 'window_container' element");
     let mut desktop = desktop::Desktop::new(container);
 
     // Windows
@@ -25,7 +27,7 @@ fn start() -> Result<(), JsValue> {
     // Show app
     let loading_div = document
         .get_element_by_id("loading")
-        .expect("Couldn't find 'loading' element");
+        .expect("[start] Couldn't find 'loading' element");
     loading_div.remove();
 
     Ok(())

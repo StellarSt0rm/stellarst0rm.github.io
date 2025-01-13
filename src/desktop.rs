@@ -1,5 +1,5 @@
 use wasm_bindgen::prelude::{Closure, JsCast};
-use web_sys::{Document, Element, HtmlElement, MouseEvent};
+use web_sys::{Document, DomRect, Element, HtmlElement, MouseEvent};
 
 pub struct Desktop {
     document: Document,
@@ -31,7 +31,7 @@ impl Desktop {
         let topbar = window_element
             .query_selector(".topbar")
             .unwrap() // This fails when there's a syntax error
-            .expect("Couldn't find 'topbar' element");
+            .expect("[drag_initalizer] Couldn't find 'topbar' element");
 
         // Callbacks
         let mousedown_window = window_element.clone();
@@ -45,10 +45,7 @@ impl Desktop {
             let offset_y = event.client_y() as f64 - topbar.get_bounding_client_rect().top();
 
             mousedown_window
-                .set_attribute("offset_x", &offset_x.to_string())
-                .unwrap();
-            mousedown_window
-                .set_attribute("offset_y", &offset_y.to_string())
+                .set_attribute("offset", &format!("{offset_x}:{offset_y}"))
                 .unwrap();
             mousedown_window.set_attribute("mousedown", "true").unwrap();
 
@@ -72,26 +69,27 @@ impl Desktop {
                 .get_attribute("mousedown")
                 .unwrap_or("false".to_string())
                 .parse()
-                .expect("Failed to parse 'mousedown' status variable");
+                .expect("[mousemove_closure] Failed to parse 'mousedown' status variable");
 
             if !mousedown {
                 return;
             }
 
             // Parse offset
-            let offset_y: f64 = window_element
-                .get_attribute("offset_y")
-                .unwrap_or("0".to_string())
-                .parse()
-                .expect("Failed to parse 'offset_y' status variable");
+            let offset = window_element
+                .get_attribute("offset")
+                .unwrap_or("0:0".to_string())
+                .split(":")
+                .map(|offset| {
+                    offset
+                        .parse::<f64>()
+                        .expect("[mousemove_closure] Failed to parse 'offset' status variable")
+                })
+                .collect::<Vec<f64>>();
 
-            let offset_x: f64 = window_element
-                .get_attribute("offset_x")
-                .unwrap_or("0".to_string())
-                .parse()
-                .expect("Failed to parse 'offset_x' status variable");
-
-            web_sys::console::log_1(&format!("{offset_x}, {offset_y}").into());
+            if offset.len() != 2 {
+                panic!("[mousemove_closure] Wrong number of elements in 'offset' status variable");
+            }
 
             // Get new window position
             let container_rect = window_element
@@ -100,10 +98,10 @@ impl Desktop {
                 .get_bounding_client_rect();
             let window_rect = window_element.get_bounding_client_rect();
 
-            let left = event.client_x() as f64 - offset_x - container_rect.left();
-            let top = event.client_y() as f64 - offset_y - container_rect.top();
+            let left = event.client_x() as f64 - offset[0] - container_rect.left();
+            let top = event.client_y() as f64 - offset[1] - container_rect.top();
 
-            // Math Time!
+            let (left, top) = apply_constraints(left, top, container_rect, window_rect);
 
             // Apply new position
             let style = window_element
@@ -114,8 +112,6 @@ impl Desktop {
 
             style.set_property("left", &format!("{left}px")).unwrap();
             style.set_property("top", &format!("{top}px")).unwrap();
-
-            web_sys::console::log_1(&format!("{offset_x}, {offset_y}").into());
         });
 
         // Add callbacks
@@ -149,4 +145,13 @@ fn window_template(name: &String, content: &String) -> String {
 
     template = template.replace("{{ name }}", name);
     template.replace("{{ content }}", content)
+}
+
+fn apply_constraints(
+    left: f64,
+    top: f64,
+    container_rect: DomRect,
+    window_rect: DomRect,
+) -> (f64, f64) {
+    (left, top)
 }
