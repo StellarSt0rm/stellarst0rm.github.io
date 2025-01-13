@@ -6,12 +6,16 @@ Remake of my website, using Rust!
   - [ ] Implement windows
     - [X] Add dragging functionality
     - [ ] Add constraints to window dragging
-    - [ ] Add resizing functionality? (Maybe)
-  - [ ] Add bottom icons
+    - [ ] Maybe add resizing functionality?
+  - [ ] Implement bottom bar
+    - [ ] Add launch bar icons
+    - [ ] Add clock
+    - [ ] Maybe add other things?
   - [ ] Implement notifications (Optional)
 - [ ] Change style (Old style was GNOME-like)
   - [X] Bottom bar
-    - [ ] Bottom bar icons
+    - [ ] Launch bar icons
+    - [ ] Links
   - [ ] Windows
     - [ ] Window headers
     - [ ] Window decorations
