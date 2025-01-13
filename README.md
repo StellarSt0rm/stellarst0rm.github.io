@@ -11,10 +11,10 @@ Remake of my website, using Rust!
   - [ ] Implement notifications (Optional)
 - [ ] Change style (Old style was GNOME-like)
   - [X] Bottom bar
-  - [ ] Bottom bar icons
+    - [ ] Bottom bar icons
   - [ ] Windows
-  - [ ] Window headers
-  - [ ] Window decorations
+    - [ ] Window headers
+    - [ ] Window decorations
 - [X] Implement caching to github workflow
 
 ## NAQ (Never Asked Questions):
