@@ -2,6 +2,11 @@ use wasm_bindgen::prelude::JsCast;
 use web_sys::{DomRect, Element, HtmlElement, MouseEvent};
 
 pub fn mosuedown(window_element: Element, event: MouseEvent) {
+    // Make sure the function only runs on left clicks
+    if event.button() != 0 {
+        return
+    }
+
     // Store variables
     let topbar = window_element.query_selector(".topbar").unwrap().unwrap();
 
