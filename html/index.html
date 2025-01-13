@@ -6,6 +6,24 @@
 
         <script type="module" defer>
             import init from "/pkg/stellarst0rm_github_io.js";
+
+            // Override console.error
+            const original_console_error = console.error;
+
+            console.error = function (error_message, ...args) {
+                const re = /panicked at (.*?:\d*:\d*):\n*(.*?)\s*Stack/;
+                let result = re.exec(error_message);
+
+                if (result !== null) {
+                    let file = result[1];
+                    let error = result[2];
+
+                    console.log(file, "|", error);
+                }
+
+                original_console_error.apply(console, [error_message, ...args]);
+            };
+
             init();
         </script>
     </head>
