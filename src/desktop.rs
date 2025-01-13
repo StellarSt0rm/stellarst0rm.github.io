@@ -1,5 +1,7 @@
-use wasm_bindgen::prelude::{Closure, JsCast};
-use web_sys::{Document, DomRect, Element, HtmlElement, MouseEvent};
+mod closures;
+
+use wasm_bindgen::{prelude::Closure, JsCast};
+use web_sys::{Document, Element, MouseEvent};
 
 pub struct Desktop {
     document: Document,
@@ -31,112 +33,34 @@ impl Desktop {
         let topbar = window_element
             .query_selector(".topbar")
             .unwrap() // This fails when there's a syntax error
-            .expect("[drag_initalizer] Couldn't find 'topbar' element");
+            .expect("[drag_initalizer] Couldn't find `topbar` element");
 
-        // Callbacks
-        let mousedown_window = window_element.clone();
-        let mouseup_window = window_element.clone();
+        // Closure
+        let closure = Closure::<dyn FnMut(_)>::new(move |event: MouseEvent| {
+            let event_type = event.type_();
 
-        let mousedown_closure = Closure::<dyn FnMut(_)>::new(move |event: MouseEvent| {
-            // Store variables
-            let topbar = mousedown_window.query_selector(".topbar").unwrap().unwrap();
+            match event_type.as_str() {
+                "mousedown" => closures::mosuedown(window_element.clone(), event),
+                "mouseup" => window_element.set_attribute("mousedown", "false").unwrap(),
+                "mousemove" => closures::mousemove(window_element.clone(), event),
 
-            let offset_x = event.client_x() as f64 - topbar.get_bounding_client_rect().left();
-            let offset_y = event.client_y() as f64 - topbar.get_bounding_client_rect().top();
-
-            mousedown_window
-                .set_attribute("offset", &format!("{offset_x}:{offset_y}"))
-                .unwrap();
-            mousedown_window.set_attribute("mousedown", "true").unwrap();
-
-            // Get the container, we *know* the window has a parent, so we just unwrap.
-            let windows = mousedown_window.parent_element().unwrap().children();
-
-            for id in 0..windows.length() {
-                // Since we're going through items based on the collection length,
-                // we dont need to ensure the item exists.
-                let window = windows.item(id).unwrap();
-
-                web_sys::console::log_1(&window.into());
+                _ => panic!("Cant to handle `{event_type}`"),
             }
-        });
-        let mouseup_closure = Closure::<dyn FnMut(_)>::new(move |_event: MouseEvent| {
-            mouseup_window.set_attribute("mousedown", "false").unwrap();
-        });
-
-        let mousemove_closure = Closure::<dyn FnMut(_)>::new(move |event: MouseEvent| {
-            let mousedown: bool = window_element
-                .get_attribute("mousedown")
-                .unwrap_or("false".to_string())
-                .parse()
-                .expect("[mousemove_closure] Failed to parse 'mousedown' status variable");
-
-            if !mousedown {
-                return;
-            }
-
-            // Parse offset
-            let offset = window_element
-                .get_attribute("offset")
-                .unwrap_or("0:0".to_string())
-                .split(":")
-                .map(|offset| {
-                    offset
-                        .parse::<f64>()
-                        .expect("[mousemove_closure] Failed to parse 'offset' status variable")
-                })
-                .collect::<Vec<f64>>();
-
-            if offset.len() != 2 {
-                panic!("[mousemove_closure] Wrong number of elements in 'offset' status variable");
-            }
-
-            // Get new window position
-            let container_rect = window_element
-                .parent_element()
-                .unwrap()
-                .get_bounding_client_rect();
-            let window_rect = window_element.get_bounding_client_rect();
-
-            let left = event.client_x() as f64 - offset[0] - container_rect.left();
-            let top = event.client_y() as f64 - offset[1] - container_rect.top();
-
-            let (left, top) = apply_constraints(left, top, container_rect, window_rect);
-
-            // Apply new position
-            let style = window_element
-                .clone()
-                .dyn_into::<HtmlElement>()
-                .unwrap()
-                .style();
-
-            style.set_property("left", &format!("{left}px")).unwrap();
-            style.set_property("top", &format!("{top}px")).unwrap();
         });
 
         // Add callbacks
         topbar
-            .add_event_listener_with_callback(
-                "mousedown",
-                mousedown_closure.as_ref().unchecked_ref(),
-            )
+            .add_event_listener_with_callback("mousedown", closure.as_ref().unchecked_ref())
             .unwrap();
         self.document
-            .add_event_listener_with_callback("mouseup", mouseup_closure.as_ref().unchecked_ref())
+            .add_event_listener_with_callback("mouseup", closure.as_ref().unchecked_ref())
             .unwrap();
-
         self.document
-            .add_event_listener_with_callback(
-                "mousemove",
-                mousemove_closure.as_ref().unchecked_ref(),
-            )
+            .add_event_listener_with_callback("mousemove", closure.as_ref().unchecked_ref())
             .unwrap();
 
-        // Toss 'em into the void
-        mousedown_closure.forget();
-        mouseup_closure.forget();
-
-        mousemove_closure.forget();
+        // Toss it into the void!
+        closure.forget();
     }
 }
 
@@ -145,13 +69,4 @@ fn window_template(name: &String, content: &String) -> String {
 
     template = template.replace("{{ name }}", name);
     template.replace("{{ content }}", content)
-}
-
-fn apply_constraints(
-    left: f64,
-    top: f64,
-    container_rect: DomRect,
-    window_rect: DomRect,
-) -> (f64, f64) {
-    (left, top)
 }
