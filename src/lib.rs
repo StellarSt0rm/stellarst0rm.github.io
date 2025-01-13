@@ -16,7 +16,7 @@ fn start() -> Result<(), JsValue> {
 
     // Windows
     desktop.new_window("Hello".to_string(), "Test".to_string());
-    desktop.new_window("Hello 2".to_string(), "Test 2".to_string());
+    //desktop.new_window("Hello 2".to_string(), "Test 2".to_string());
 
     // Other
     let version_span = document.get_element_by_id("version").unwrap();

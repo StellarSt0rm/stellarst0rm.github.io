@@ -6,6 +6,7 @@
 
 /* Windows */
 .window {
+    position: absolute;
     overflow: hidden;
 
     height: 10rem;

@@ -1,5 +1,5 @@
 use wasm_bindgen::prelude::{Closure, JsCast};
-use web_sys::{Document, Element, MouseEvent};
+use web_sys::{Document, Element, HtmlElement, MouseEvent};
 
 pub struct Desktop {
     document: Document,
@@ -37,7 +37,19 @@ impl Desktop {
         let mousedown_window = window_element.clone();
         let mouseup_window = window_element.clone();
 
-        let mousedown_closure = Closure::<dyn FnMut(_)>::new(move |_event: MouseEvent| {
+        let mousedown_closure = Closure::<dyn FnMut(_)>::new(move |event: MouseEvent| {
+            // Store variables
+            let topbar = mousedown_window.query_selector(".topbar").unwrap().unwrap();
+
+            let offset_x = event.client_x() as f64 - topbar.get_bounding_client_rect().left();
+            let offset_y = event.client_y() as f64 - topbar.get_bounding_client_rect().top();
+
+            mousedown_window
+                .set_attribute("offset_x", &offset_x.to_string())
+                .unwrap();
+            mousedown_window
+                .set_attribute("offset_y", &offset_y.to_string())
+                .unwrap();
             mousedown_window.set_attribute("mousedown", "true").unwrap();
 
             // Get the container, we *know* the window has a parent, so we just unwrap.
@@ -55,7 +67,7 @@ impl Desktop {
             mouseup_window.set_attribute("mousedown", "false").unwrap();
         });
 
-        let mousemove_closure = Closure::<dyn FnMut(_)>::new(move |_event: MouseEvent| {
+        let mousemove_closure = Closure::<dyn FnMut(_)>::new(move |event: MouseEvent| {
             let mousedown: bool = window_element
                 .get_attribute("mousedown")
                 .unwrap_or("false".to_string())
@@ -66,7 +78,44 @@ impl Desktop {
                 return;
             }
 
-            web_sys::console::log_1(&"Drag!".into());
+            // Parse offset
+            let offset_y: f64 = window_element
+                .get_attribute("offset_y")
+                .unwrap_or("0".to_string())
+                .parse()
+                .expect("Failed to parse 'offset_y' status variable");
+
+            let offset_x: f64 = window_element
+                .get_attribute("offset_x")
+                .unwrap_or("0".to_string())
+                .parse()
+                .expect("Failed to parse 'offset_x' status variable");
+
+            web_sys::console::log_1(&format!("{offset_x}, {offset_y}").into());
+
+            // Get new window position
+            let container_rect = window_element
+                .parent_element()
+                .unwrap()
+                .get_bounding_client_rect();
+            let window_rect = window_element.get_bounding_client_rect();
+
+            let left = event.client_x() as f64 - offset_x - container_rect.left();
+            let top = event.client_y() as f64 - offset_y - container_rect.top();
+
+            // Math Time!
+
+            // Apply new position
+            let style = window_element
+                .clone()
+                .dyn_into::<HtmlElement>()
+                .unwrap()
+                .style();
+
+            style.set_property("left", &format!("{left}px")).unwrap();
+            style.set_property("top", &format!("{top}px")).unwrap();
+
+            web_sys::console::log_1(&format!("{offset_x}, {offset_y}").into());
         });
 
         // Add callbacks
