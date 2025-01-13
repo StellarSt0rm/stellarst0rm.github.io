@@ -4,10 +4,10 @@ Remake of my website, using Rust!
 ## TODO
 - [ ] Remake old website's functionality
   - [ ] Implement windows
-  - [X] Add dragging functionality
-  - [ ] Add constraints to window dragging
+    - [X] Add dragging functionality
+    - [ ] Add constraints to window dragging
+    - [ ] Add resizing functionality? (Maybe)
   - [ ] Add bottom icons
-  - [ ] Add resizing functionality? (Maybe)
   - [ ] Implement notifications (Optional)
 - [ ] Change style (Old style was GNOME-like)
   - [X] Bottom bar
