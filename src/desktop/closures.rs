@@ -73,9 +73,7 @@ pub fn mousemove(window_element: Element, event: MouseEvent) {
     let old_left: f64 = style
         .get_property_value("left")
         .unwrap()
-        .split("px")
-        .next() // Get the first element (number)
-        .unwrap_or("0") // If there's no items, defaults to 0
+        .replace("px", "")
         .parse()
         .unwrap_or(0.); // If it's invalid, defaults to 0
 
