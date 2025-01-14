@@ -15,7 +15,7 @@ Remake of my website, using Rust!
 - [ ] Change style (Old style was GNOME-like)
   - [X] Bottom bar
     - [ ] Launch bar icons
-    - [ ] Links
+    - [X] Links
   - [ ] Windows
     - [ ] Window headers
     - [ ] Window decorations
