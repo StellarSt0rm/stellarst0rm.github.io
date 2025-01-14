@@ -1,10 +1,10 @@
 use wasm_bindgen::prelude::JsCast;
 use web_sys::{DomRect, Element, HtmlElement, MouseEvent};
 
-pub fn mosuedown(window_element: Element, event: MouseEvent) {
+pub fn mousedown(window_element: Element, event: MouseEvent) {
     // Make sure the function only runs on left clicks
     if event.button() != 0 {
-        return
+        return;
     }
 
     // Store variables
@@ -35,7 +35,7 @@ pub fn mousemove(window_element: Element, event: MouseEvent) {
         .get_attribute("mousedown")
         .unwrap_or("false".to_string())
         .parse()
-        .expect("[mousemove] Failed to parse `mousedown` status variable");
+        .expect("[mousemove] Failed to parse `mousedown` attribute");
 
     let style = window_element
         .clone()
@@ -48,19 +48,19 @@ pub fn mousemove(window_element: Element, event: MouseEvent) {
     }
 
     // Parse offset
-    let offset = window_element
+    let offset: Vec<f64> = window_element
         .get_attribute("offset")
         .unwrap_or("0:0".to_string())
         .split(":")
         .map(|offset| {
             offset
                 .parse::<f64>()
-                .expect("[mousemove] Failed to parse `offset` status variable")
+                .expect("[mousemove] Failed to parse `offset` attribute")
         })
-        .collect::<Vec<f64>>();
+        .collect();
 
     if offset.len() != 2 {
-        panic!("[mousemove] Wrong number of elements in `offset` status variable");
+        panic!("[mousemove] Wrong number of elements in `offset` attribute");
     }
 
     // Get new window position

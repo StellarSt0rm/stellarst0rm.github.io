@@ -33,14 +33,14 @@ impl Desktop {
         let topbar = window_element
             .query_selector(".topbar")
             .unwrap() // This fails when there's a syntax error
-            .expect("[drag_initalizer] Couldn't find `topbar` element");
+            .expect("[drag_initalizer] Couldnt find `topbar` element");
 
         // Closure
         let closure = Closure::<dyn FnMut(_)>::new(move |event: MouseEvent| {
             let event_type = event.type_();
 
             match event_type.as_str() {
-                "mousedown" => closures::mosuedown(window_element.clone(), event),
+                "mousedown" => closures::mousedown(window_element.clone(), event),
                 "mouseup" => window_element.set_attribute("mousedown", "false").unwrap(),
                 "mousemove" => closures::mousemove(window_element.clone(), event),
 
