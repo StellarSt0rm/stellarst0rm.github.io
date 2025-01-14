@@ -35,3 +35,7 @@ body {
 
     gap: 1rem;
 }
+
+#loading {
+    position: absolute;
+}
