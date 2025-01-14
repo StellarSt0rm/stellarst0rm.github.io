@@ -1,5 +1,13 @@
 /* https://css-loaders.com/dots #49 */
 
+#loading {
+    transition: 0.2s opacity;
+}
+
+#loading[hidden="true"] {
+    opacity: 0;
+}
+
 .loader {
     height: 15px;
     aspect-ratio: 4;
