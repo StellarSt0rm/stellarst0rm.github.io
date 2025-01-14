@@ -4,8 +4,11 @@
 
 /* Main */
 body {
+    display: flex;
+
     height: 100vh;
     width: 100vw;
+
     overflow: hidden;
     margin: 0;
 
@@ -22,6 +25,10 @@ body {
     backdrop-filter: blur(30px);
 }
 
+a {
+    color: white;
+}
+
 /* General */
 #loading,
 #content {
@@ -34,8 +41,34 @@ body {
     align-items: center;
 
     gap: 1rem;
+    transition: 0.5s opacity;
 }
 
 #loading {
     position: absolute;
+    gap: 0;
+
+    width: calc(100% - 8vw * 2);
+    padding: 0 8vw;
+
+    text-align: center;
+    text-shadow: 2px 2px 4px black;
+}
+
+#loading > * {
+    margin: 0;
+}
+
+#loading > h1 {
+    margin-bottom: 2rem;
+}
+
+/* Animations */
+#loading[hidden="true"],
+#content[hidden="true"] {
+    opacity: 0;
+}
+
+#content[hidden="true"] {
+    pointer-events: none;
 }

@@ -1,17 +1,9 @@
 /* https://css-loaders.com/dots #49 */
 
-#loading {
-    transition: 0.2s opacity;
-}
-
-#loading[hidden="true"] {
-    opacity: 0;
-}
-
 .loader {
     height: 15px;
     aspect-ratio: 4;
-    --_g: no-repeat radial-gradient(farthest-side, #fff 90%, #fff0);
+    --_g: no-repeat radial-gradient(farthest-side, #fff 95%, #fff0);
     background:
         var(--_g) left,
         var(--_g) right;

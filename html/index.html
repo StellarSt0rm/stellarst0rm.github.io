@@ -23,7 +23,35 @@
                     let file = result[1];
                     let error = result[2];
 
-                    console.log(file, "|", error);
+                    let loading = document.getElementById("loading");
+                    let content = document.getElementById("content");
+
+                    loading.setAttribute("hidden", false);
+                    content.setAttribute("hidden", true);
+
+                    if (window.getSelection) {
+                        window.getSelection().removeAllRanges();
+                    } else if (document.selection) {
+                        document.selection.empty();
+                    }
+
+                    loading.innerHTML = `
+                      <h1 style="margin: 0">Error!</h1>
+                      <p>There was an error in the Wasm pkg.</p>
+
+                      <hr style="width: 20rem; margin: 1rem 0; color: white;">
+
+                      <h3>At file:</h3>
+                      <p>${file}</p>
+
+                      <h3 style="margin-top: 1rem">Error message:</h3>
+                      <p>${error}</p>
+
+                      <hr style="width: 20rem; margin: 1rem 0; color: white;">
+
+                      <p>You can report the error <a href="https://github.com/StellarSt0rm/stellarst0rm.github.io/issues" target="blank">here</a>.</p>
+                      <p>Or refresh the page by clicking <a href="/">here</a>.</p>
+                    `;
                 }
 
                 original_console_error.apply(console, [error_message, ...args]);
