@@ -1,2 +1,6 @@
-<div class="topbar">{{ name }}</div>
+<div class="topbar">
+    <p style="margin: 0; visibility: hidden">X</p>
+    <p style="flex-grow: 1; margin: 0; text-align: center">{{ name }}</p>
+    <p style="margin: 0">X</p>
+</div>
 <div class="content">{{ content }}</div>

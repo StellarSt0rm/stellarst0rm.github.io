@@ -2,6 +2,9 @@
     flex-grow: 1;
     width: 100%;
     overflow: hidden;
+
+    --window_background: #1f1f1f;
+    --window_border: #3f3f3f;
 }
 
 /* Windows */
@@ -9,18 +12,20 @@
     position: absolute;
     overflow: hidden;
 
-    height: 10rem;
-    width: 10rem;
-
+    height: 20rem;
+    width: 30rem;
     min-height: max-content;
     min-width: max-content;
 
-    background: red;
+    background: var(--window_background);
+    border: 0.1rem solid var(--window_border);
+    border-radius: 1rem;
 }
 
 .topbar {
-    height: 1rem;
-    width: 100%;
+    display: flex;
+    padding: 0.5rem;
 
-    background: blue;
+    user-select: none;
+    background: var(--window_border);
 }

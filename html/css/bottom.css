@@ -45,7 +45,7 @@
     border-bottom: 1.5rem solid var(--bottom_bar_color);
     border-bottom-right-radius: 5rem;
 
-    transform: translateY(2.04rem) translateX(-3rem);
+    transform: translateY(2.06rem) translateX(-3rem);
 }
 
 #app_launcher right {
@@ -53,7 +53,7 @@
     border-bottom: 1.5rem solid var(--bottom_bar_color);
     border-bottom-left-radius: 5rem;
 
-    transform: translateY(2.04rem) translateX(3rem);
+    transform: translateY(2.06rem) translateX(3rem);
 }
 
 /* Status Bar */
