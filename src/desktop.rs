@@ -18,15 +18,20 @@ impl Desktop {
         }
     }
 
-    pub fn new_window(&mut self, name: String, content: String) {
+    pub fn new_window(&mut self, window_data: &super::data::WindowData) {
         let window_element = self.document.create_element("div").unwrap();
 
         window_element.set_class_name("window");
-        window_element.set_inner_html(&window_template(&name, &content));
+        window_element.set_inner_html(&window_template(
+            &window_data.name().to_string(),
+            &window_data.content().to_string(),
+        ));
         self.container.append_child(&window_element).unwrap();
 
-        // Make draggable
-        self.make_window_draggable(window_element);
+        self.make_window_draggable(window_element.clone());
+
+        // Pass the window to the callback
+        window_data.callback(window_element);
     }
 
     fn make_window_draggable(&self, window_element: Element) {

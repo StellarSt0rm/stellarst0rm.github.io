@@ -1,8 +1,9 @@
+mod data;
 mod desktop;
 
 use console_error_panic_hook;
 use wasm_bindgen::prelude::*;
-use web_sys;
+use web_sys::{self};
 
 #[wasm_bindgen(start)]
 fn start() -> Result<(), JsValue> {
@@ -16,9 +17,9 @@ fn start() -> Result<(), JsValue> {
         .expect("[start] Couldnt find `window_container` element");
     let mut desktop = desktop::Desktop::new(container);
 
-    // Windows
-    desktop.new_window("Hello".to_string(), "Test".to_string());
-    //desktop.new_window("Hello 2".to_string(), "Test 2".to_string());
+    for window in data::WINDOWS.iter() {
+        desktop.new_window(window);
+    }
 
     // Other
     let version_span = document.get_element_by_id("version").unwrap();
