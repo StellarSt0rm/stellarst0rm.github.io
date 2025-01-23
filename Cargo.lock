@@ -123,7 +123,7 @@ dependencies = [
 
 [[package]]
 name = "stellarst0rm_github_io"
-version = "0.4.2"
+version = "0.4.3"
 dependencies = [
  "console_error_panic_hook",
  "toml",

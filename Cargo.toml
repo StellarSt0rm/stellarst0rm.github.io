@@ -1,6 +1,6 @@
 [package]
 name = "stellarst0rm_github_io"
-version = "0.4.2"
+version = "0.4.3"
 
 description = "My website!"
 repository = "https://github.com/StellarSt0rm/stellarst0rm.github.io"
