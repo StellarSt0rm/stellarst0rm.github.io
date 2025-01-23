@@ -2,9 +2,9 @@ name: Build and Deploy to GitHub Pages
 
 on:
   push:
-    paths: [src/**, html/**]
+    paths: [Cargo.toml, src/**, html/**]
   pull_request:
-    paths: [src/**, html/**]
+    paths: [Cargo.toml, src/**, html/**]
 
 # Config
 env:
