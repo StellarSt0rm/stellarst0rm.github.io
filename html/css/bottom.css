@@ -8,8 +8,6 @@
 
     transition: 0.5s transform;
     will-change: transform;
-
-    --bottom_bar_color: #2f2f2f;
 }
 
 #bottom[hidden="true"] {

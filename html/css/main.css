@@ -2,6 +2,18 @@
 @import "./window_container.css";
 @import "./bottom.css";
 
+/* Colors */
+:root {
+    /* Windows */
+    --window_background: #1f1f1f;
+    --window_border: #3f3f3f;
+
+    --topbar-padding: 0.5rem;
+
+    /* Bottom bar */
+    --bottom_bar_color: #2f2f2f;
+}
+
 /* Main */
 body {
     display: flex;
