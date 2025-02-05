@@ -24,14 +24,14 @@ impl Desktop {
         window_element.set_class_name("window");
         window_element.set_inner_html(&window_template(
             &window_data.name().to_string(),
-            &window_data.content().to_string(),
+            &window_data.html_content().to_string(),
         ));
         self.container.append_child(&window_element).unwrap();
 
         self.make_window_draggable(window_element.clone());
 
         // Pass the window to the callback
-        window_data.callback(window_element);
+        window_data.callback(window_element, &self.document);
     }
 
     fn make_window_draggable(&self, window_element: Element) {
