@@ -1,20 +1,13 @@
 use web_sys::Element;
 
-pub const WINDOWS: [WindowData; 1] = [WindowData {
-    name: "Callback Test",
-    content: "This should be overwritten!",
-    icon_url: "/aaaa",
-    callback: Some(test_function),
-}];
+mod passdle;
 
-fn test_function(element: Element) {
-    element
-        .query_selector(".content")
-        .unwrap()
-        .unwrap()
-        .set_text_content(Some("Callback test works!"));
-    web_sys::console::log_2(&"Window:".into(), &element.into());
-}
+pub const WINDOWS: [WindowData; 1] = [WindowData {
+    name: "Passdle",
+    content: include_str!("data/html/passdle.html"),
+    icon_url: "/icons/passdle.png",
+    callback: Some(passdle::start),
+}];
 
 // Structs
 /// Callback field is used for more advanced windows with custom functionality.

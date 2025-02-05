@@ -42,7 +42,7 @@ a {
 }
 
 /* General */
-#loading,
+#status,
 #content {
     height: 100%;
     width: 100%;
@@ -56,7 +56,7 @@ a {
     transition: 0.5s opacity;
 }
 
-#loading {
+#status {
     position: absolute;
     gap: 0;
 
@@ -67,16 +67,16 @@ a {
     text-shadow: 2px 2px 4px black;
 }
 
-#loading > * {
+#status > * {
     margin: 0;
 }
 
-#loading > h1 {
+#status > h1 {
     margin-bottom: 2rem;
 }
 
 /* Animations */
-#loading[hidden="true"],
+#status[hidden="true"],
 #content[hidden="true"] {
     opacity: 0;
 }

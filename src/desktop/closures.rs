@@ -35,7 +35,7 @@ pub fn mousemove(window_element: Element, event: MouseEvent) {
         .get_attribute("mousedown")
         .unwrap_or("false".to_string())
         .parse()
-        .expect("[mousemove] Failed to parse `mousedown` attribute");
+        .unwrap_or(false);
 
     let style = window_element
         .clone()

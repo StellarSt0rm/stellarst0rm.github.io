@@ -28,4 +28,6 @@ features = [
 
     "MouseEvent",
     "console",
+
+    "Crypto",
 ]

@@ -23,10 +23,10 @@
                     let file = result[1];
                     let error = result[2];
 
-                    let loading = document.getElementById("loading");
+                    let status = document.getElementById("status");
                     let content = document.getElementById("content");
 
-                    loading.setAttribute("hidden", false);
+                    status.setAttribute("hidden", false);
                     content.setAttribute("hidden", true);
 
                     if (window.getSelection) {
@@ -35,7 +35,7 @@
                         document.selection.empty();
                     }
 
-                    loading.innerHTML = `
+                    status.innerHTML = `
                       <h1 style="margin: 0">Error!</h1>
                       <p>There was an error in the Wasm pkg.</p>
 
@@ -66,7 +66,7 @@
             let FF_FOUC_FIX;
         </script>
 
-        <div id="loading">
+        <div id="status">
             <h1>Loading Wasm pkg...</h1>
             <div class="loader"></div>
         </div>
