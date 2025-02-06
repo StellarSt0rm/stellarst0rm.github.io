@@ -29,6 +29,7 @@
                     status.setAttribute("hidden", false);
                     content.setAttribute("hidden", true);
 
+                    // Prevent the error text being selected if the user was dragging a window
                     if (window.getSelection) {
                         window.getSelection().removeAllRanges();
                     } else if (document.selection) {
@@ -71,7 +72,7 @@
             <div class="loader"></div>
         </div>
 
-        <div id="content">
+        <div id="content" hidden="true">
             <div id="window_container"></div>
 
             <!--

@@ -26,15 +26,21 @@ fn start() -> Result<(), JsValue> {
     version_span.set_text_content(Some(env!("CARGO_PKG_VERSION")));
 
     // Show app
-    let status_div = document
+    document
         .get_element_by_id("status")
-        .expect("[start] Couldnt find `status` element");
-    status_div.set_attribute("hidden", "true").unwrap();
-
-    let bottom_div = document
+        .expect("[start] Couldnt find `status` element")
+        .set_attribute("hidden", "true")
+        .unwrap();
+    document
+        .get_element_by_id("content")
+        .expect("[start] Couldnt find `content` element")
+        .set_attribute("hidden", "false")
+        .unwrap();
+    document
         .get_element_by_id("bottom")
-        .expect("[start] Couldnt find `bottom` element");
-    bottom_div.set_attribute("hidden", "false").unwrap();
+        .expect("[start] Couldnt find `bottom` element")
+        .set_attribute("hidden", "false")
+        .unwrap();
 
     Ok(())
 }
