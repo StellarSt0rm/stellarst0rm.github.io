@@ -39,7 +39,7 @@ pub fn start(window: Element, document: &Document) {
 fn generate_password(length: usize) -> String {
     //! Generate n length password using only ASCII values
 
-    const CHARACTERS: &str = "abcdefghijklmnopqrstuvwxyz";
+    const CHARACTERS: &str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     let window = window().unwrap();
 
     let crypto = window.crypto().expect("No crypto support");
