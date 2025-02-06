@@ -20,10 +20,17 @@ impl Desktop {
 
     pub fn new_window(&mut self, window_data: &super::data::WindowData) {
         let window_element = self.document.create_element("div").unwrap();
+        let window_id = format!(
+            "{}_{}",
+            window_data.id(),
+            self.container.children().length()
+        );
 
         window_element.set_class_name("window");
+        window_element.set_id(&window_id);
         window_element.set_inner_html(&window_template(
             &window_data.name().to_string(),
+            &window_id,
             &window_data.html_content().to_string(),
         ));
         self.container.append_child(&window_element).unwrap();
@@ -69,9 +76,12 @@ impl Desktop {
     }
 }
 
-fn window_template(name: &String, content: &String) -> String {
+fn window_template(name: &String, window_id: &String, content: &String) -> String {
     let mut template = include_str!("data/window.template").to_string();
 
     template = template.replace("{{ name }}", name);
-    template.replace("{{ content }}", content)
+    template.replace(
+        "{{ content }}",
+        &content.replace("{{ window_id }}", window_id),
+    )
 }

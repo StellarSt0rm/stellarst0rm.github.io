@@ -3,25 +3,34 @@ mod passdle;
 
 pub const WINDOWS: [WindowData; 1] = [WindowData {
     name: "Passdle",
+    id: "passdle",
     html_content: include_str!("data/passdle/passdle.html"),
     icon_url: "/icons/passdle.png",
     callback: Some(passdle::start),
 }];
 
 // Structs
-/// Callback field is used for more advanced windows with custom functionality.
-/// eg. Games or very dynamic windows.
-/// Note: Any id/class in the content must start with '<name>_' to avoid conflicts.
 pub struct WindowData<'a> {
+    /// id: To use the value from this field, use the `{{ window_id }}` placeholder
     name: &'a str,
+    id: &'a str,
+
+    /// html_content: Any ID/class in the content must start with the ID set above
+    /// icon_url: Must point to an image in `/html`, ex: `/icons/image.png`
     html_content: &'a str,
     icon_url: &'a str,
+
+    /// callback: Allows for custom functionality for advanced windows
     callback: Option<fn(Element, &Document) -> ()>,
 }
 
 impl<'a> WindowData<'a> {
     pub fn name(&self) -> &'a str {
         self.name
+    }
+
+    pub fn id(&self) -> &'a str {
+        self.id
     }
 
     pub fn html_content(&self) -> &'a str {
