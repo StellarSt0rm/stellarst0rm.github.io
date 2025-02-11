@@ -1,12 +1,15 @@
-/* https://css-loaders.com/dots #49 */
+.loader {
+    filter: drop-shadow(2px 2px 4px black);
+}
 
+/* https://css-loaders.com/dots #49 */
 .loader {
     height: 15px;
     aspect-ratio: 4;
-    --_g: no-repeat radial-gradient(farthest-side, #fff 95%, #fff0);
+    --loader_dot: no-repeat radial-gradient(farthest-side, #fff 90%, #fff0);
     background:
-        var(--_g) left,
-        var(--_g) right;
+        var(--loader_dot) left,
+        var(--loader_dot) right;
     background-size: 25% 100%;
     display: grid;
 }
@@ -20,17 +23,17 @@
     border-radius: 50%;
     transform-origin: -100% 50%;
     background: #fff;
-    animation: l49 1s infinite linear;
+    animation: loader_animation 1s infinite linear;
 }
 .loader:after {
     transform-origin: 200% 50%;
-    --s: -1;
+    --loader-direction: -1;
     animation-delay: -0.5s;
 }
 
-@keyframes l49 {
+@keyframes loader_animation {
     58%,
     100% {
-        transform: rotate(calc(var(--s, 1) * 1turn));
+        transform: rotate(calc(var(--loader-direction, 1) * 1turn));
     }
 }
