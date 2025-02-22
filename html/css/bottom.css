@@ -19,21 +19,36 @@
     display: flex;
     z-index: 0;
 
-    height: 5rem;
+    padding: 0.5rem;
+    gap: 0.5rem;
 
-    background: var(--bottom_bar_color);
+    background: var(--window_background);
+    border: 0.1rem solid var(--window_border);
     border-radius: 2rem;
     margin-bottom: 0.5rem;
 }
 
 /* Icons */
 #icon_container .icon {
-    margin: 0.5rem;
+    display: flex;
+    justify-content: center;
+
+    height: 4rem;
 }
 
 #icon_container .icon img {
     height: 4rem;
     border-radius: 1.5rem;
+}
+
+#icon_container .icon p {
+    position: absolute;
+    padding: 0.4rem;
+    top: -40%;
+
+    background: var(--window_background);
+    border: 0.1rem solid var(--window_border);
+    border-radius: 1rem;
 }
 
 /* Status Bar */
@@ -45,7 +60,8 @@
     height: 2.5rem;
     width: 100%;
 
-    background: var(--bottom_bar_color);
+    background: var(--window_background);
+    border-top: 0.1rem solid var(--window_border);
 }
 
 #status_bar left,
