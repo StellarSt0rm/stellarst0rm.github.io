@@ -12,13 +12,16 @@ fn start() -> Result<(), JsValue> {
 
     // Load app
     let document = web_sys::window().unwrap().document().unwrap();
-    let container = document
+    let window_container = document
         .get_element_by_id("window_container")
         .expect("[start] Couldnt find `window_container` element");
-    let mut desktop = desktop::Desktop::new(container);
+    let icon_container = document
+        .get_element_by_id("icon_container")
+        .expect("[start] Couldnt find `icon_container` element.");
+    let mut desktop = desktop::Desktop::new(window_container, icon_container);
 
-    for window in data::WINDOWS.iter() {
-        desktop.new_window(window);
+    for window_data in data::WINDOWS.iter() {
+        desktop.new_window(window_data);
     }
 
     // Other

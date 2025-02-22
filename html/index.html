@@ -76,20 +76,16 @@
             <div id="window_container"></div>
 
             <!--
-                App Launcher: Stores icons for apps, to select/re-open them.
+                Icon Container: Stores icons for apps, to focus/re-open them.
                 Status Bar: System clock, etc.
 
                 Left and Right elements are used to visually
-                connect App Launcher with the Status Bar.
+                connect the Icon Container with the Status Bar.
 
                 App icons are stored in the Center element.
             -->
             <div id="bottom" hidden="true">
-                <div id="app_launcher">
-                    <left></left>
-                    <center></center>
-                    <right></right>
-                </div>
+                <div id="icon_container"></div>
                 <div id="status_bar">
                     <left>
                         <a
