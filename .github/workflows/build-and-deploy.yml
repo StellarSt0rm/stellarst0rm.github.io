@@ -1,10 +1,10 @@
 name: Build and Deploy to GitHub Pages
 
 on:
-  push:
+  push: &cond
+    branches: [main]
     paths: [Cargo.toml, src/**, html/**]
-  pull_request:
-    paths: [Cargo.toml, src/**, html/**]
+  pull_request: *cond
 
 # Config
 env:
