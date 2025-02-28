@@ -42,6 +42,9 @@
 }
 
 #icon_container .icon p {
+    opacity: 0;
+    transition: opacity 0.2s;
+
     position: absolute;
     padding: 0.4rem;
     top: -40%;
@@ -49,6 +52,10 @@
     background: var(--window_background);
     border: 0.1rem solid var(--window_border);
     border-radius: 1rem;
+}
+
+#icon_container .icon:hover p {
+    opacity: 0.8;
 }
 
 /* Status Bar */
