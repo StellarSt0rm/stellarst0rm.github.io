@@ -1,7 +1,7 @@
 mod closures;
 
 use wasm_bindgen::{prelude::Closure, JsCast};
-use web_sys::{Document, Element, MouseEvent};
+use web_sys::{Document, Element, HtmlElement, MouseEvent};
 
 pub struct Desktop {
     document: Document,
@@ -53,25 +53,62 @@ impl Desktop {
 
         self.icon_container.append_child(&icon_element).unwrap();
 
+        // Focus the new window
+        Desktop::focus_window(&window_element);
+
         // Add event closures to window, and pass to callback
         self.set_event_closures(window_element.clone());
         window_data.callback(window_element, &self.document);
     }
 
+    pub fn focus_window(window_element: &Element) {
+        let window_container = window_element.parent_element().unwrap();
+
+        // Remove focused window from container, then re-append it
+        window_container
+            .query_selector(&format!("#{}", window_element.id()))
+            .unwrap()
+            .unwrap()
+            .remove();
+
+        window_container.append_child(&window_element).unwrap();
+
+        for i in 0..window_container.children().length() {
+            let window = window_container.children().get_with_index(i).unwrap();
+            let style = window.clone().dyn_into::<HtmlElement>().unwrap().style();
+
+            window.set_attribute("focused", "false").unwrap();
+            style.set_property("z-index", &i.to_string()).unwrap();
+
+            if window == *window_element {
+                window.set_attribute("focused", "true").unwrap();
+            }
+        }
+    }
+
+    // TODO: Rework closures.
     fn set_event_closures(&self, window_element: Element) {
         let topbar = window_element
             .query_selector(".topbar")
             .unwrap() // This fails when there's a syntax error
             .expect("[drag_initalizer] Couldnt find `topbar` element");
+        let window_icon = self
+            .document
+            .query_selector(&format!("#{}-icon", window_element.id()))
+            .unwrap()
+            .unwrap();
 
         // Closure
         let closure = Closure::<dyn FnMut(_)>::new(move |event: MouseEvent| {
             let event_type = event.type_();
+            let target = event.target().unwrap().dyn_into::<Element>().unwrap();
 
             match event_type.as_str() {
                 "mousedown" => closures::mousedown(window_element.clone(), event),
                 "mouseup" => window_element.set_attribute("mousedown", "false").unwrap(),
                 "mousemove" => closures::mousemove(window_element.clone(), event),
+
+                "click" => closures::icon_pressed(window_element.clone(), target),
 
                 _ => panic!("Cant to handle `{event_type}`"),
             }
@@ -81,6 +118,10 @@ impl Desktop {
         topbar
             .add_event_listener_with_callback("mousedown", closure.as_ref().unchecked_ref())
             .unwrap();
+        window_icon
+            .add_event_listener_with_callback("click", closure.as_ref().unchecked_ref())
+            .unwrap();
+
         self.document
             .add_event_listener_with_callback("mouseup", closure.as_ref().unchecked_ref())
             .unwrap();
