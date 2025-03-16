@@ -8,13 +8,13 @@ Remake of my website, using Rust!
     - [X] Add constraints to window dragging
     - [ ] Maybe add resizing functionality?
   - [ ] Implement bottom bar
-    - [ ] Add launch bar icons
+    - [X] Add launch bar icons
     - [ ] Add clock
     - [ ] Maybe add other things?
   - [ ] Implement notifications (Optional)
 - [ ] Change style (Old style was GNOME-like)
   - [X] Bottom bar
-    - [ ] Launch bar icons
+    - [X] Launch bar icons
     - [X] Links
   - [ ] Windows
     - [ ] Window headers
