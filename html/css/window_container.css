@@ -19,7 +19,13 @@
 
     background: var(--window_background);
     border: 0.1rem solid var(--window_border);
+    box-shadow: black 0px 0px 10px 1px;
     border-radius: 1rem;
+}
+
+.window[focused="false"] {
+    filter: brightness(0.6);
+    transition: filter 0.4s;
 }
 
 /* Topbar */
