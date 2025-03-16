@@ -1,13 +1,29 @@
 use web_sys::{Document, Element};
 mod passdle;
 
-pub const WINDOWS: [WindowData; 1] = [WindowData {
-    name: "Passdle",
-    id: "passdle",
-    html_content: include_str!("data/passdle/passdle.html"),
-    icon_url: "/icons/passdle.png",
-    callback: Some(passdle::start),
-}];
+pub const WINDOWS: [WindowData; 3] = [
+    WindowData {
+        name: "Passdle",
+        id: "passdle",
+        html_content: include_str!("data/passdle/passdle.html"),
+        icon_url: "/icons/passdle.png",
+        callback: Some(passdle::start),
+    },
+    WindowData {
+        name: "Test",
+        id: "test",
+        html_content: "Hiya!",
+        icon_url: "/icons/test.png",
+        callback: None,
+    },
+    WindowData {
+        name: "Test",
+        id: "test2",
+        html_content: "Hiya!",
+        icon_url: "/icons/test.png",
+        callback: None,
+    },
+];
 
 // Structs
 pub struct WindowData<'a> {
