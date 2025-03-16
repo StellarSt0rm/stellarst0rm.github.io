@@ -1,6 +1,9 @@
 use wasm_bindgen::prelude::JsCast;
 use web_sys::{DomRect, Element, HtmlElement, MouseEvent};
 
+// // // // //
+// Closures //
+// // // // //
 pub fn mousedown(window_element: Element, event: MouseEvent) {
     // Make sure the function only runs on left clicks
     if event.button() != 0 {
@@ -18,16 +21,8 @@ pub fn mousedown(window_element: Element, event: MouseEvent) {
         .unwrap();
     window_element.set_attribute("mousedown", "true").unwrap();
 
-    // Get the container, we *know* the window has a parent, so we just unwrap.
-    let windows = window_element.parent_element().unwrap().children();
-
-    for id in 0..windows.length() {
-        // Since we're going through items based on the collection length,
-        // we dont need to ensure the item exists.
-        let window = windows.item(id).unwrap();
-
-        web_sys::console::log_1(&window.into());
-    }
+    // Focus window
+    super::Desktop::focus_window(&window_element);
 }
 
 pub fn mousemove(window_element: Element, event: MouseEvent) {
@@ -118,4 +113,11 @@ fn apply_constraints(
     let new_top = f64::max(0., min_top);
 
     (new_left, new_top)
+}
+
+// // // // //
+// Actions  //
+// // // // //
+pub fn icon_pressed(window_element: Element, icon: Element) {
+    super::Desktop::focus_window(&window_element);
 }
