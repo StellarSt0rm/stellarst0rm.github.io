@@ -16,7 +16,7 @@
             const original_console_error = console.error;
 
             console.error = function (error_message, ...args) {
-                // Extract the file, error and stack trace.
+                // Extract the file and error.
                 const re = /panicked at (.*?:\d*:\d*):\n*(.*?)\s*Stack/;
                 let result = re.exec(error_message);
 
