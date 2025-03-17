@@ -17,13 +17,12 @@
 
             console.error = function (error_message, ...args) {
                 // Extract the file, error and stack trace.
-                const re = /panicked at (.*?:\d*:\d*):\n*(.*?)\s*Stack:\n\n([\s\S]*)/;
+                const re = /panicked at (.*?:\d*:\d*):\n*(.*?)\s*Stack/;
                 let result = re.exec(error_message);
 
                 if (result !== null) {
                     let file = result[1];
                     let error = result[2];
-                    let stack = result[3];
 
                     let status = document.getElementById("status");
                     let content = document.getElementById("content");
@@ -38,7 +37,7 @@
                         document.selection.empty();
                     }
 
-                    let template = `## Describe How The Error Happened:\n[HERE]\n\n## Error And Stack Trace:\n\`\`\`\n${file}\n${error}\n\n${stack}\n\`\`\``;
+                    let template = `## Describe How The Error Happened:\n[HERE]\n\n## Error:\n\`\`\`\n${file}\n${error}\n\`\`\``;
                     template = encodeURIComponent(template);
 
                     status.innerHTML = `
