@@ -2,7 +2,7 @@
 name = "stellarst0rm_github_io"
 version = "0.4.3"
 
-description = "My cozy website made using Rust with WASM"
+description = "My cozy website made using Rust with Wasm"
 repository = "https://github.com/StellarSt0rm/stellarst0rm.github.io"
 license = "AGPL-3.0-only"
 
@@ -12,22 +12,8 @@ edition = "2024"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-console_error_panic_hook = "0.1.7"
+gloo = { version = "0.11.0", default-features = false, features = ["events"] }
 wasm-bindgen = "0.2.99"
 
 [dependencies.web-sys]
 version = "0.3.76"
-features = [
-    "Window",
-    "Document",
-
-    "HtmlElement",
-    "HtmlCollection",
-    "DomRect",
-    "CssStyleDeclaration",
-
-    "MouseEvent",
-    "console",
-
-    "Crypto",
-]
