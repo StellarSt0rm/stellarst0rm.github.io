@@ -1,25 +1,10 @@
 # [StellarSt0rm.github.io](https://stellarst0rm.github.io)
-Remake of my website, using Rust!
+My cozy website made using Rust with Wasm
 
 ## TODO
-- [ ] Remake old website's functionality
-  - [ ] Implement windows
-    - [X] Add dragging functionality
-    - [X] Add constraints to window dragging
-    - [ ] Maybe add resizing functionality?
-  - [ ] Implement bottom bar
-    - [X] Add launch bar icons
-    - [ ] Add clock
-    - [ ] Maybe add other things?
-  - [ ] Implement notifications (Optional)
-- [ ] Change style (Old style was GNOME-like)
-  - [X] Bottom bar
-    - [X] Launch bar icons
-    - [X] Links
-  - [ ] Windows
-    - [ ] Window headers
-    - [ ] Window decorations
-- [X] Implement caching to github workflow
+- [ ] Make it have a retro look
+- [ ] Make draggable desktop icons
+- [ ] Easter eggs ;3
 
 ## NAQ (Never Asked Questions):
 **Why?** Because i feel like it, and it's better than JavaScript. (Anything is better than JavaScript) \
