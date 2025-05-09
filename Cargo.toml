@@ -1,11 +1,12 @@
 [package]
 name = "stellarst0rm_github_io"
 version = "0.4.3"
-edition = "2024"
 
-description = "My website, made with Rust!"
+description = "My cozy website made using Rust with WASM"
 repository = "https://github.com/StellarSt0rm/stellarst0rm.github.io"
-license = "MIT"
+license = "AGPL-3.0-only"
+
+edition = "2024"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
