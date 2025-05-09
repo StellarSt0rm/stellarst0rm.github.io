@@ -44,15 +44,14 @@ if [ ! -d ./pkg ]; then
     exit 1
 fi
 
-rm -rf ./public && mkdir ./public
+rm -r ./public && mkdir ./public
 mv ./pkg ./public
 cp -a ./html/. ./public
 
-# Run app locally (If needed)
+# Run app locally when the argument `run` is passed
 if [ "$1" = "run" ]; then
     cd ./public
 
     echo "---"
     $PYTHON -m http.server
 fi
-
