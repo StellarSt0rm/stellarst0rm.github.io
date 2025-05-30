@@ -1,11 +1,74 @@
 <!doctype html>
+<html style="background: black">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<body style="background: black; font-style: monospaced; color: white">
-    <p>Im rebuilding my website, again...</p>
-    <p>
-        Go to my GitHub for more information:
-        <a href="https://github.com/StellarSt0rm/stellarst0rm.github.io"
-            >https://github.com/StellarSt0rm/stellarst0rm.github.io</a
-        >
-    </p>
-</body>
+		<title>StellarSt0rm</title>
+		<meta name="description" content="Made by StellarStorm, duh." />
+
+		<link rel="stylesheet" href="css/main.css" />
+
+		<script type="module">
+			import init from "/pkg/stellarst0rm_github_io.js";
+
+			// Override console.error
+			const original_console_error = console.error;
+
+			console.error = function (error_message, ...args) {
+				// Extract the file and error.
+				const re = /panicked at ([\s\S]*?)\s*Stack/;
+				let result = re.exec(error_message);
+
+				if (result == null) {
+					original_console_error.apply(console, [
+						error_message,
+						...args,
+					]);
+					return;
+				}
+
+				// Hide elements
+				document.getElementById("window_container").style.display =
+					"none";
+				document.getElementById("icon_container").style.display =
+					"none";
+
+				// Show to the user
+				let template =
+					"## Describe How The Error Happened:\n[HERE]\n\n## Error:\n```\n" +
+					result[1] +
+					"\n```";
+				template = encodeURIComponent(template);
+
+				document.getElementById("loader").innerHTML = `
+                <p style="font-size: 2em">x(</p>
+
+                <br />
+                <p>There was an error in the Wasm pkg:</p>
+                <p>${result[1].replaceAll("\n", "<br>")}</p>
+
+                <br />
+                <p>You can report the error <a style="color: white" href="https://github.com/StellarSt0rm/stellarst0rm.github.io/issues/new?title=Bug%20Report&labels=Bug&body=${template}" target="blank">here</a>.</p>
+                <p>Or refresh the page by clicking <a style="color: white" href="/">here</a>.</p>
+            `;
+			};
+
+			init();
+		</script>
+	</head>
+
+	<body class="window">
+		<div class="title">Loading Wasm pkg...</div>
+		<div class="controls">
+			<div class="close_button button" onclick="document.body.remove()">
+				x
+			</div>
+		</div>
+
+		<div id="desktop" class="content">
+			<div id="icon_container"></div>
+			<div id="window_container"></div>
+		</div>
+	</body>
+</html>
