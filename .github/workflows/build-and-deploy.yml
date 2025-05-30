@@ -1,61 +1,53 @@
 name: Build and Deploy to GitHub Pages
 
 on:
-  push:
-    branches: [main]
-    paths: [Cargo.toml, src/**, html/**]
-  pull_request:
-    branches: [main]
-    paths: [Cargo.toml, src/**, html/**]
+    push:
+        branches: [main]
+        paths: [Cargo.toml, src/**, html/**]
+    pull_request:
+        branches: [main]
+        paths: [Cargo.toml, src/**, html/**]
 
 # Config
 env:
-  CARGO_TERM_COLOR: always
+    CARGO_TERM_COLOR: always
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+    contents: read
+    pages: write
+    id-token: write
 
 concurrency:
-  group: pages
-  cancel-in-progress: false
+    group: pages
+    cancel-in-progress: false
 
 # Build job
 jobs:
-  build:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    build:
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
 
-    runs-on: ubuntu-latest
+        runs-on: ubuntu-latest
 
-    steps:
-      # Setup
-      - name: Checkout repo
-        uses: actions/checkout@v4
+        steps:
+            # Setup
+            - name: Checkout repo
+              uses: actions/checkout@v4
 
-      - name: Setup GitHub Pages
-        uses: actions/configure-pages@v5
+            - name: Setup GitHub Pages
+              uses: actions/configure-pages@v5
 
-      # Test & Build
-      - name: Setup wasm-pack
-        uses: taiki-e/cache-cargo-install-action@v2
-        with:
-          tool: wasm-pack
+            # Preprocess the website
+            - name: Run preprocessor
+              run: sh ./preprocess.sh
 
-      - name: Run tests
-        run: cargo test --release
+            # Upload
+            - name: Upload artifact
+              uses: actions/upload-pages-artifact@v3
+              with:
+                  path: ./public
 
-      - name: Run build script
-        run: BUILD_ENV="PROD" sh ./build.sh
-
-      # Upload
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./public
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+            - name: Deploy to GitHub Pages
+              id: deployment
+              uses: actions/deploy-pages@v4
