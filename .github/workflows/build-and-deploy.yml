@@ -4,9 +4,11 @@ on:
     push:
         branches: [main]
         paths: [Cargo.toml, src/**, templates/**]
+        paths-ignore: templates/**/README.md
     pull_request:
         branches: [main]
         paths: [Cargo.toml, src/**, templates/**]
+        paths-ignore: templates/**/README.md
 
 # Config
 env:
