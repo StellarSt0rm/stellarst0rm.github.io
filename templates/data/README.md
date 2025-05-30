@@ -1,0 +1,8 @@
+# .sdo, Silly Data Objects
+
+My custom .sdo file format is very simple, essentially just plain text, there's three main sections:
+- `Title`, the title of the window.
+- `Icon`, the **text** icon of the window, technically allows emojis too but I'll get angry if you use any (/j).
+- `Content`, the content of the window.
+
+Each section can span multiple lines if you please, it will stop at the next section and the content will be tirmmed too, so you can space them about however you want. The `Content:` section can have ANYTHING without breaking the parsing, so you can even put `Icon: Imma break you` in it and it will work as expected, unless 'as expected' for you means breaking my parser, asshole.
