@@ -1,6 +1,8 @@
 mod sdo_parser;
 mod templates;
 
+use std::io::Write;
+
 use include_dir::{Dir, include_dir};
 static TEMPLATES_DATA: Dir<'_> = include_dir!("templates/data");
 
@@ -8,6 +10,9 @@ fn main() {
     let data_files = TEMPLATES_DATA.files();
     let parsed_files = sdo_parser::parse(data_files);
 
+    println!("Parsed .sdo files.");
+
+    // Template the HTML
     let mut templated_windows: Vec<String> = Vec::new();
     let mut templated_icons: Vec<String> = Vec::new();
 
@@ -34,5 +39,12 @@ fn main() {
         icons: templated_icons.join("\n"),
     };
 
-    println!("{}", root_template);
+    println!("Templated the HTML.");
+
+    // Write it to processed.html
+    let mut file = std::fs::File::create_new("processed.html").unwrap();
+    file.write_all(root_template.to_string().as_bytes())
+        .unwrap();
+
+    println!("Wrote HTML to `processed.html`");
 }
