@@ -1,6 +1,6 @@
 <!doctype html>
 
-<html style="background: black">
+<html>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -14,7 +14,11 @@
 	<body class="window">
 		<div class="title">stellarst0rm.github.io</div>
 		<div class="controls">
-			<div class="close_button button" onclick="document.body.remove()">
+			<!-- Easter egg for when the user clicks the close button on the body -->
+			<div
+				class="close_button button"
+				onclick="document.body.replaceWith('You broke my website, meanie!') "
+			>
 				x
 			</div>
 		</div>

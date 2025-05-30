@@ -8,15 +8,26 @@ p {
 	margin: 0;
 }
 
-body {
-	color: white;
+html {
 	font-family: monospace;
 	font-size: 1.5em;
-	overflow: hidden;
 
+	color: white;
+	background: black;
+
+	overflow: hidden;
 	text-shadow: 0 0 0.5em #ffffff;
 	filter: blur(0.02em);
 	user-select: none;
 
+	/* For the body close button easter egg */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	height: 100%;
+}
+
+body {
 	inset: 6% !important;
 }
