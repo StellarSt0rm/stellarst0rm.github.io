@@ -22,6 +22,10 @@
 
 	overflow-y: scroll;
 	padding: 1em;
+
+	&:not(body > *) {
+		white-space: pre-wrap;
+	}
 }
 
 .window .title {
