@@ -8,23 +8,5 @@ license = "AGPL-3.0-only"
 
 edition = "2024"
 
-[lib]
-crate-type = ["cdylib", "rlib"]
-
 [dependencies]
-console_error_panic_hook = "0.1.7"
-gloo = { version = "0.11.0", default-features = false, features = ["events"] }
-wasm-bindgen = "0.2.99"
-
-[dependencies.web-sys]
-version = "0.3.76"
-features = [
-    "Window",
-    "Document",
-
-    "Element",
-    "HtmlElement",
-    "HtmlCollection",
-
-    "console",
-]
+askama = { version = "0.14.0", default-features = false, features = ["derive"] }
