@@ -19,6 +19,8 @@ html {
 	text-shadow: 0 0 0.5em #ffffff;
 	filter: blur(0.02em);
 	user-select: none;
+	
+	scrollbar-color: white transparent;
 
 	/* For the body close button easter egg */
 	display: flex;
