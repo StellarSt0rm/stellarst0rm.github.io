@@ -1,2 +1,0 @@
-<img src="{{ icon_url }}" />
-<p>{{ name }}</p>

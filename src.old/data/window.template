@@ -1,5 +1,0 @@
-<div class="topbar">
-    <p style="flex-grow: 1; margin: 0; text-align: center">{{ name }}</p>
-    <div id="close_button">X</div>
-</div>
-<div class="content" style="flex-grow: 1">{{ content }}</div>
