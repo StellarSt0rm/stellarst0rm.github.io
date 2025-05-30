@@ -1,0 +1,22 @@
+@import "./windows.css";
+@import "./icons.css";
+
+* {
+	box-sizing: border-box;
+}
+p {
+	margin: 0;
+}
+
+body {
+	color: white;
+	font-family: monospace;
+	font-size: 1.5em;
+	overflow: hidden;
+
+	text-shadow: 0 0 0.5em #ffffff;
+	filter: blur(0.02em);
+	user-select: none;
+
+	inset: 6% !important;
+}
