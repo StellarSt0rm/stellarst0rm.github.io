@@ -12,6 +12,9 @@ p {
 a {
 	color: white;
 }
+a:focus-visible {
+  outline: solid white 0.15em;
+}
 ul {
 	display: flex;
 	flex-direction: column;
