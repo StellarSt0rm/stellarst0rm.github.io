@@ -6,13 +6,13 @@
 	color: white;
 
 	position: absolute;
-	inset: 10%;
+	inset: 4em;
 
 	border: 0.15em solid white;
 	outline: 0.8em solid black;
 	background: black;
 
-	&:not(body) {
+	&:not(#root) {
 		padding: 0.6em 0;
 	}
 }
@@ -28,7 +28,7 @@
 	padding: 1em;
 
 	/* Use pre-wrap when the screen is big enough */
-	&:not(body > *) {
+	&:not(#root > *) {
 		white-space: preserve-spaces;
 
 		@media (min-width: 900px) {

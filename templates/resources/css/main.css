@@ -8,37 +8,6 @@ p {
 	margin: 0;
 }
 
-/* Markdown styles */
-a {
-	color: white;
-}
-a:focus-visible {
-  outline: solid white 0.15em;
-}
-ul {
-	display: flex;
-	flex-direction: column;
-
-	margin: 0;
-	padding-left: 1.2em;
-}
-li {
-	margin: 0;
-}
-li::marker {
-	content: "- ";
-}
-hr {
-	color: white;
-	margin: 0;
-
-	border: 0.15em solid white;
-	border-top: none; /* Thinner */
-}
-pre {
-	margin: 0;
-}
-
 /* Root */
 html {
 	font-family: monospace;
@@ -62,6 +31,42 @@ html {
 	height: 100%;
 }
 
-body {
-	inset: 6% !important;
+#root.window {
+	display: block;
+	inset: 2em;
+}
+
+#root.window:popover-open {
+	display: none;
+}
+
+/* Markdown styles */
+a {
+	color: white;
+}
+a:focus-visible {
+	outline: solid white 0.15em;
+}
+ul {
+	display: flex;
+	flex-direction: column;
+
+	margin: 0;
+	padding-left: 1.2em;
+}
+li {
+	margin: 0;
+}
+li::marker {
+	content: "- ";
+}
+hr {
+	color: white;
+	margin: 0;
+
+	border: 0.15em solid white;
+	border-top: none; /* Thinner */
+}
+pre {
+	margin: 0;
 }
