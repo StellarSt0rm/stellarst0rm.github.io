@@ -27,8 +27,13 @@
 	overflow-y: scroll;
 	padding: 1em;
 
+	/* Use pre-wrap when the screen is big enough */
 	&:not(body > *) {
-		white-space: pre-wrap;
+		white-space: preserve-spaces;
+
+		@media (min-width: 900px) {
+			white-space: pre-wrap;
+		}
 	}
 }
 
