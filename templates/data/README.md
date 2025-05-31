@@ -22,3 +22,6 @@ Content: <CONTENT, can span multiple lines>
 # Silly Data Formatter
 
 It's just markdown. *But* I styled it in a way where it will look amazing with my style! One note, code blocks will look like normal text, thus if you wanna escape A LOT of text just wrap it in a code block, easy as that!
+
+> [!NOTE]
+> Use SDF sparingly for links and emphasis, remember that this is a simple website, and we dont want fancy headers, I'm too lazy to disable markdown features so please just listen to me on this one.
