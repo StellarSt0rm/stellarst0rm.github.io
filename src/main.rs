@@ -1,4 +1,4 @@
-mod sdo_parser;
+mod silly_data;
 mod templates;
 
 use std::io::Write;
@@ -8,7 +8,7 @@ static TEMPLATES_DATA: Dir<'_> = include_dir!("templates/data");
 
 fn main() {
     let data_files = TEMPLATES_DATA.files();
-    let parsed_files = sdo_parser::parse(data_files);
+    let parsed_files = silly_data::parse_sdo(data_files);
 
     println!("Parsed .sdo files.");
 
@@ -17,9 +17,9 @@ fn main() {
     let mut templated_icons: Vec<String> = Vec::new();
 
     for (i, application) in parsed_files.iter().enumerate() {
-        let title = application[0];
-        let icon = application[1];
-        let content = application[2];
+        let title = &application[0];
+        let icon = &application[1];
+        let content = &application[2];
 
         let id = format!("{}-{}", title.to_lowercase(), i);
 

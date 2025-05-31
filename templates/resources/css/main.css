@@ -8,6 +8,35 @@ p {
 	margin: 0;
 }
 
+/* Markdown styles */
+a {
+	color: white;
+}
+ul {
+	display: flex;
+	flex-direction: column;
+
+	margin: 0;
+	padding-left: 1em;
+}
+li {
+	margin: 0;
+}
+li::marker {
+	content: "- ";
+}
+hr {
+	color: white;
+	margin: 0;
+
+	border: 0.15em solid white;
+	border-top: none; /* Thinner */
+}
+pre {
+	margin: 0;
+}
+
+/* Root */
 html {
 	font-family: monospace;
 	font-size: 1.5em;
@@ -19,7 +48,7 @@ html {
 	text-shadow: 0 0 0.5em #ffffff;
 	filter: blur(0.02em);
 	user-select: none;
-	
+
 	scrollbar-color: white transparent;
 
 	/* For the body close button easter egg */
