@@ -5,9 +5,11 @@ Content:
 Hello! Im StellarSt0rm, but you can call me May.
 I like doing silly little projects once in a while,
 I'll leave a list for you down below here:
-- [whiteboard](https://github.com/StellarSt0rm/whiteboard), a simple whiteboard app built with GTK4 and Rust.
+- [whiteboard](https://codeberg.org/StellarSt0rm/whiteboard), a simple whiteboard app built with GTK4 and Rust.
 - [stellarst0rm.github.io](https://github.com/StellarSt0rm/stellarst0rm.github.io), this website, it uses a Rust preprocessor!
-- [dotfiles](https://github.com/StellarSt0rm/dotfiles), not really a project, but consider checking it out!
+- [static-website-generator](https://codeberg.org/StellarSt0rm/static-website-generator), a prototype for a new rust
+  preprocessor, yes, i am remaking my website yet again... Im bored okay?
+- [dotfiles](https://codeberg.org/StellarSt0rm/dotfiles), not really a project, but consider checking it out!
 
 There's some more, but they're private for the moment,
 I will release them when they're somewhat finished enough
